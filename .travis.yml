@@ -2,4 +2,4 @@ language: ruby
 rvm:
   - 2.4.1p111
 install: gem install rspec
-script: spec
+script: bundle exec rspec

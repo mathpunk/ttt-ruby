@@ -8,4 +8,8 @@ class Board
   def size
     @spaces.size
   end
+  def move(player, space)
+    index = space-1
+    @spaces[index] = :mark
+  end
 end

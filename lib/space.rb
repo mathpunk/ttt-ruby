@@ -5,6 +5,10 @@ class Space
                     # I wanted to express the intent to use this name and the absence of its value.
   end
 
+  def owner
+    @owner
+  end
+
   def blank?
     unless @owner
       true
@@ -24,8 +28,10 @@ class Space
   def glyph
     if self.blank?
       ' '
-    else
-      @owner.glyph
+    elsif @owner == :p1
+      'X'
+    elsif @owner == :p2
+      'O'
     end
   end
 

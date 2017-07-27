@@ -1,11 +1,16 @@
 class Space
 
   def initialize
-    @mark = :blank
+    @owner = nil    # How do we feel about explicit nil assignment?
+                    # I wanted to express the intent to use this name and the absence of its value.
   end
 
   def blank?
-    @mark == :blank
+    unless @owner
+      true
+    else
+      false
+    end
   end
 
   def empty? # alias: board uses 'empty?', should this match or differ?
@@ -13,20 +18,14 @@ class Space
   end
 
   def mark(player) # verb
-    @mark = player
-  end
-
-  def owner
-    if @mark
-      @mark
-    else
-      nil
-    end
+    @owner = player
   end
 
   def glyph
-    if @mark == :blank
+    if self.blank?
       ' '
+    else
+      @owner.glyph
     end
   end
 

@@ -1,8 +1,11 @@
 class Board
-  def new
-    [:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank]
+  def initialize
+    @spaces = [:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank]
+  end
+  def empty?
+    @spaces.reduce(true) { |result, element| result && element == :blank }
   end
   def size
-    9
+    @spaces.size
   end
 end

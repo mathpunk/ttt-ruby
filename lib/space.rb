@@ -20,15 +20,13 @@ class Space
     if @mark
       @mark
     else
-      false
+      nil
     end
   end
 
   def glyph
     if @mark == :blank
       ' '
-    else
-      @mark.player.glyph
     end
   end
 

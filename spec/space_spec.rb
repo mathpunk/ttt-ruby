@@ -48,7 +48,7 @@ describe Space do
 
     it "should know what occupies it (glyph)" do
       @space.mark(:p1)
-      expect(@space.glyph).to eq('X') # I expect, but do not know that I have, a custom glyph requirement
+      expect(@space.glyph).to eq('X') 
     end
   end
 

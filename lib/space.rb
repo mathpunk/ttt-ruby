@@ -10,11 +10,7 @@ class Space
   end
 
   def blank?
-    unless @owner
-      true
-    else
-      false
-    end
+    @owner ? false : true
   end
 
   def empty? # alias: board uses 'empty?', should this match or differ?
@@ -26,12 +22,12 @@ class Space
   end
 
   def glyph
-    if self.blank?
-      ' '
-    elsif @owner == :p1
+    if @owner == :p1
       'X'
     elsif @owner == :p2
       'O'
+    else
+      ' '
     end
   end
 

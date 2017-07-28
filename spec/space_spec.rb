@@ -7,7 +7,6 @@ describe Space do
   end
 
   context "a new space" do
-
     it "begins as a blank" do
       expect(@space.blank?).to be true
     end

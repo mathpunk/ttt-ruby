@@ -2,7 +2,7 @@ require "player"
 
 describe Player do
 
-  before(:all) do
+  before(:each) do
     @p1 = Player.new(1)
     @p2 = Player.new(2)
   end
@@ -32,7 +32,9 @@ describe Player do
   end
 
   context "player movement" do
-    expect(@p1.move).to be_between(1,9).inclusive
+    it "should be a valid address for a space" do
+      expect(@p1.move).to be_between(1,9).inclusive
+    end
   end
 
 end

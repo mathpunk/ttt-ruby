@@ -36,20 +36,20 @@ describe Space do
   context "having been marked" do
     before(:each) do
       @space.mark(@p1)
-    end
-
-    it "should know who occupies it (player)" do
-      expect(@space.owner).to eq(@p1)
-      @space.mark(@p2)
-      expect(@space.owner).to eq(@p2)
+      @another_space = Space.new
+      @another_space.mark(@p2)
     end
 
     it "should not be empty" do
       expect(@space.empty?).to be false
     end
 
+    it "should know who occupies it (player)" do
+      expect(@space.owner).to eq(@p1)
+      expect(@another_space.owner).to eq(@p2)
+    end
+
     it "should know what occupies it (glyph)" do
-      @space.mark(@p1)
       expect(@space.glyph).to eq('X') 
     end
   end

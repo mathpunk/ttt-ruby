@@ -1,16 +1,19 @@
 require "game"
+require "player"
 
 describe Game do
-  before(:all) do
-    @game = Game.new
+  before(:each) do
+    @p1 = Player.new(1)
+    @p2 = Player.new(2)
+    @game = Game.new(@p1, @p2)
   end
 
   it "should create playable games" do
-    @game.play
+    expect(@game.play).to be_truthy
   end
 
   it "should create winnable games" do
-    @game.over?
+    expect(@game.over?).to be_truthy
   end
 
   it "should have a result (player or draw) for a game that is over" do
@@ -21,6 +24,8 @@ describe Game do
 
   it "should have exactly 2 players" do
     expect(@game.players.size).to eq(2)
+    expect(@game.players[0].class).to eq(Player)
+    expect(@game.players[1].class).to eq(Player)
   end
 
   it "should have a board of 9 spaces" do

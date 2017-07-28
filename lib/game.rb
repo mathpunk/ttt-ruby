@@ -1,8 +1,8 @@
 require "board"
 
 class Game
-  def initialize
-    @players = ["Me", "You"]
+  def initialize(p1, p2)
+    @players = [p1, p2]
     @board = Board.new
   end
   def play

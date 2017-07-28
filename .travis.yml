@@ -1,5 +1,8 @@
 language: ruby
 rvm:
-  - 2.4.0
+- 2.4.0
 install: gem install rspec
 script: bundle exec rspec
+notifications:
+  slack:
+    secure: yVXEH1teWMriPMkrjfzClxqll7B/UcKF/1zQBbVzVvZFXt8FNL40UJpZL3exHYEhhigJMxebTmRZ7KZc+Lqj3zRDKLzcfjk2ZC/wyngEsRD1SzVBjVLhwGekMwTbrJFyAhiPTtNLM2l6XKvTCJMLFsMHPkEdaA/s6kjAoHwem8aC1NYHa8O92EA+9vuKXs5Ry/siWJus6N/A/5PtGEfnciI6uu0iFXJeHCZs+LYS8HqBip+rlCU6DRmKNnQHIRFW/XL3TprExeJyDDzbam6mqiU7eqBYeVdvRLWpRH6Qbev0RONhSVPseFQC2v1SsiUSO1pi3MgdD58yzsKbIJEV3Qv9kZTjSAlb5Nn8IH9MDtpZsHSQpAQtD+LtS5GUjGeHvKD7VUgpNRWmZ/IDA20ICC5P1fhY30E7D85Z4ClSEUfsPIZW2kH+mw01/TlSMJHQww6qhjJndpp1H4UoBeTXOk6nnmg5wKVRqPsbo6n73P7JJNmPZBw37BrK4ILnh/5nb5kQkfaaoMNBsmo/ppsn4NH6fAZBkBL/7AGM6FRIgskDZ+O/RktpF6e757a7TcYWuTcZZEZ1s4CWrElhHmNa8/2JJ+kbYeq2zD1BopdGgukXlbr8x2M5vmgSJZ82G/W3wXyjeT5g6UVCuh4w/GQIpd83yKmhY/v19TFwqZg/ayc=

@@ -22,12 +22,10 @@ class Space
   end
 
   def glyph
-    if @owner == :p1
-      'X'
-    elsif @owner == :p2
-      'O'
-    else
+    unless @owner
       ' '
+    else
+      @owner.glyph
     end
   end
 

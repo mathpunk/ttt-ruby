@@ -1,23 +1,26 @@
+require "game"
 require "board"
-require "player"
+require "move"
+require "referee"
 
 describe Board do
-
-  before(:each) do
-    @board = Board.new
-    @p1 = Player.new(1)
-    @p2 = Player.new(2)
-  end
-
-  it "should start out empty" do
-    expect(@board.empty?).to be true
-  end
-
-  context "when player moves" do
-    it "shouldn't be empty" do
-      @board.move(@p1, 3)
-      expect(@board.empty?).to be false
+  context "when empty" do
+    before(:each) do
+      @board = Board.empty
+    end
+    it "is empty" do
+      expect(@board.empty?).to be true
+    end
+    it "isn't empty after a move" do
+      move = Move.new("Tom", [1,1])
+      @board.move(move)
+      expect(@board.empty?).to be_falsey
+    end
+    it "can retrieve a move that's just been made" do
+      move_made = Move.new("Tom", [1,1])
+      @board.move(move_made)
+      move_retrieved = @board.getByLocation(move_made.where)
+      expect(move_retrieved).to eq(move_made)
     end
   end
-
 end

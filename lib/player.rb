@@ -1,23 +1,12 @@
 class Player
-  def initialize(position)
-    @name = 'Anonymous'
-    @position = position
-    @glyph = @position == 1 ? 'X' : 'O'
+  attr_reader :name
+  def initialize(name)
+    @name = "Tom"
   end
-
-  def name
-    @name
-  end
-
-  def glyph
-    @glyph
-  end
-
-  def position
-    @position
-  end
-
   def move
-    5 # "Good ol' center. nothing beats center."
+    rand(1..9)
+  end
+  def join(game)
+    game.admitPlayer(self)
   end
 end

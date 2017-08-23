@@ -1,15 +1,32 @@
+require "observer"
+
 class Board
-  def initialize
-    @spaces = [:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank,:blank]
+  include Observable
+  attr_reader :moves
+
+  def initialize(moves)
+    @moves = moves
   end
+
+  def self.empty
+    Board.new(Hash.new)
+  end
+
   def empty?
-    @spaces.reduce(true) { |result, element| result && element == :blank }
+    moves.empty?
   end
-  def size
-    @spaces.size
+
+  def move(a_move)
+    moves[a_move.where] = a_move
+    changed
+    notify_observers(self)
   end
-  def move(player, space)
-    index = space-1
-    @spaces[index] = :mark
+
+  def full?
+    moves.size == 9
+  end
+
+  def getByLocation(location)
+    moves[location]
   end
 end

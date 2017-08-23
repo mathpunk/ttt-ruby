@@ -1,23 +1,36 @@
+require "referee"
+require "player"
 require "board"
 
 class Game
-  def initialize(p1, p2)
-    @players = [p1, p2]
-    @board = Board.new
+  attr_reader :board, :winner, :players
+
+  def initialize()
+    @board = Board.empty
+    @players = Hash.new
+    referee = Referee.new(@board)
+    referee.add_observer(self)
   end
-  def play
-    true
+  def conclusion
+    if winner
+      winner + " wins!"
+    else
+      nil
+    end
   end
-  def over?
-    true
+  def admitPlayer(player)
+    if players.size == 0
+      players[1] = player
+    elsif players.size == 1
+      players[2] = player
+    else
+      nil
+    end
   end
-  def result
-    "draw"
+  def update(referee)
+    @winner = referee.winner
   end
-  def players
-    @players
-  end
-  def board
-    @board
+  def player(number)
+    players[number]
   end
 end

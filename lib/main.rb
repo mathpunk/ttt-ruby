@@ -1,8 +1,18 @@
 class TicTacToe
-  attr_reader :board, :players
-  def initialize
-    @board = Hash.new
+  attr_reader :players
+  attr_accessor :board
 
+  def column(n)
+    @board.select { |key, value| key[1] == n }
+  end
+
+  def row(n)
+    @board.select { |key, value| key[0] == n }
+  end
+
+  def initialize
+
+    @board = Hash.new
     player_1 = "Artoo"
     player_2 = "Hal"
     @players = [player_1, player_2]

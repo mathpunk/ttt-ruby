@@ -37,9 +37,9 @@ class Game
     moves[move] = player if moves[move] == :no_one
   end
   def request_move(player)
-    row = rand(0..2)
-    column = rand(0..2)
-    move = [row, column]
+    possible_moves = (0..2).to_a.product((0..2).to_a)
+    remaining_moves = possible_moves - moves.keys
+    move = remaining_moves.sample
     if moves[move] == :no_one
       move
     else

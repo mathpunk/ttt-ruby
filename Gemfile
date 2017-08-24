@@ -1,5 +1,12 @@
 source "https://rubygems.org"
-gem "rspec"
-gem "pry"
-gem "pry-doc"
-gem "method_source"
+
+group :development do
+  gem "rspec"
+  gem "pry"
+  gem "pry-doc"
+  gem "method_source"
+end
+
+group :test do
+  gem "rspec"
+end

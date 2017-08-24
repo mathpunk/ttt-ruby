@@ -1,7 +1,7 @@
 language: ruby
 rvm:
 - 2.4.0
-install: gem install rspec
+install: bundle install
 script: bundle exec rspec
 notifications:
   slack:

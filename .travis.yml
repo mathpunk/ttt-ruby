@@ -5,9 +5,10 @@ install: bundle install
 script: bundle exec rspec
 notifications:
   slack:
-    secure: cxOWDzMDzwg+PUFWhbqurGBDPEq+RQZlxk/FwFuKdeN17J2xaGypPsx+syEV54zoz5rLQev9/Lj7i3kmN0iEG9DoDiypyoG5Hi1eMojws0JK4WgfN0o05q5D465ca+oOMk9dJjxadXU7H3LnwkxWeyQOPhVvbIxi2eWz8LzPMClcv7URMlt6PaAl1DMgYROLRdZXHxpTRnR7kJZ9nLzbW9IK4V5H7Xgp5ioc1I1bzZ1atGBMkJwR/rCq+o4zbhIz5xFaFAWzhWogkV3eRYEYgksYDNGSc+nB6TK/LBqwVJnDDKEsc0kQ3ui8mBB/c0ku729HuL0vXO2Dk1seVhbrTzu1NujTfV0tjx0UiB31NfRuLjqhvjSolWsrKy4b7ZXLGlD8N1jxPq4t9yPHj467T+CVV56Yeu66UTQLKebiQQXLh+lwvrf4IlhUVrsa0J4OGDxOX5xvlFGzGV9iy02AezO7J70/3dS6szpdXU7I8cYqbpUYm8t0SN3YBh3iSgeJgCikhHfo9JeysmITl8H9ECHWmRy6IIy4uQN8qDMwAfZ71rZDKNsfLXPYuF4eySu63zx39D1BFCyc73WBEBP14u3Blxxkf7+KiaCbur5Sns2CGAptGX521JTzXoBxEw2mf0F9BdqMSRXmU5MPwr6ZfBuqrVgcEfdaqBfHhP3A1S0=
+    rooms:
+      - 8thlight: ozNrx4SLg6rL4bkomaWojNYn#tom-apprenticeship
     on_success: always
     on_failure: never
     template:
       - "%{repository_name} #%{build_number} (%{commit}): %{commit_subject}"
-      - "Changes: %{compare_url}"
+      - "%{branch} - %{compare_url}"

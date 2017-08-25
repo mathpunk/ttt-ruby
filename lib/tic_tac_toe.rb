@@ -1,14 +1,40 @@
 require "observer"
 
+class Display
+  def initialize(game)
+    game.add_observer(self)
+  end
+  def empty_row
+    "   |   |   "
+  end
+  def divider
+    "---+---+---"
+  end
+  def empty_board
+    empty_row + divider + empty_row + divider + empty_row
+  end
+  def mark_row(column, mark)
+    index = { 0 => 1, 1 => 5, 2 => 9}[column]
+    chars = empty_row.chars
+    chars[index] = mark
+    chars.join("")
+  end
+  def update(moves)
+    puts divider
+  end
+end
+
 class Player
 end
 
 class Game
   include Observable
+
   def initialize
     @moves = Hash.new(:no_one)
     @players = []
     @up = 0
+    @display = Display.new(self)
   end
   def start(p1, p2)
     players.push(p1)
@@ -31,11 +57,8 @@ class Game
     player_up = player(:up)
     chosen_move = request_move(player_up)
     accept_move(player_up, chosen_move)
-    # up = (up + 1) % 2
-    # self.up = (self.up + 1) % 2
-    @up = (@up + 1) % 2     # why do the other private accessors work, but not this one?
+    @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
   end
-
   def accept_move(player, move)
     if moves[move] == :no_one
       changed
@@ -86,7 +109,7 @@ class Game
   # ==================================
   # io
   def draw_board
-    puts moves.inspect
+    @display.update(@moves)
   end
   def end_game
     puts "Game over"
@@ -96,6 +119,7 @@ class Game
     if over?
       end_game
     else
+      @display.update(@moves)
       player_up = player(:up)
       chosen_move = request_move_io(player_up)
       accept_move(player_up, chosen_move)

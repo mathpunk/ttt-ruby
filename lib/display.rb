@@ -1,6 +1,7 @@
 class Display
-  def initialize(game)
-    game.add_observer(self)
+  def initialize # (game)
+    # game.add_observer(self)
+    @dummy_counter = 0
   end
   def empty_row
     "   |   |   "
@@ -18,6 +19,7 @@ class Display
     chars.join("")
   end
   def update
-    puts "BOARD"
+    @dummy_counter = @dummy_counter + 1
+    puts @dummy_counter
   end
 end

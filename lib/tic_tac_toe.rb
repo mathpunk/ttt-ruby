@@ -1,7 +1,10 @@
+require "observer"
+
 class Player
 end
 
 class Game
+  include Observable
   def initialize
     @moves = Hash.new(:no_one)
     @players = []
@@ -34,7 +37,11 @@ class Game
   end
 
   def accept_move(player, move)
-    moves[move] = player if moves[move] == :no_one
+    if moves[move] == :no_one
+      changed
+      moves[move] = player
+      notify_observers(self)
+    end
   end
   def request_move(player)
     possible_moves = (0..2).to_a.product((0..2).to_a)
@@ -71,7 +78,7 @@ class Game
     diagonals = [].push(pos_diagonal).push(neg_diagonal)
     lines = rows + columns + diagonals
     winning_lines = lines.select { |line| winner_of_line(line) }
-    winning_line = winning_lines[0] # NB: simultaneous winners unguarded against
+    winning_line = winning_lines[0] # NB: simultaneous winners unguarded against (but should be impossible)
     winner = winner_of_line(winning_line)
     winner ? winner : :no_one
   end

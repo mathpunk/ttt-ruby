@@ -15,6 +15,15 @@ describe TicTacToe do
     it "is player one's turn to go" do
       expect(@game.player(:up)).to eq(@player)
     end
+    it "is player two's turn after a move has been refereed" do
+      @game.referee_turn
+      expect(@game.player(:up)).to eq(@another_player)
+    end
+    it "is player one's turn after two moves have been refereed" do
+      @game.referee_turn
+      @game.referee_turn
+      expect(@game.player(:up)).to eq(@player)
+    end
   end
   context "when moving" do
     before(:each) do

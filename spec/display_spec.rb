@@ -4,10 +4,11 @@ require "tic_tac_toe"
 describe Display do
   before(:each) do
     @game = Game.new
+    @board = Board.new
     @player1 = Player.new("Player 1", "X")
     @player2 = Player.new("Player 2", "O")
     @game.start(@player1, @player2)
-    @display = Display.new(@game)
+    @display = Display.new(@board)
   end
   it "empty boards look right" do
     board = @display.view

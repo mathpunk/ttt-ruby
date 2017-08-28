@@ -11,6 +11,11 @@ describe Display do
     @game.start(@player1, @player2)
     @display = Display.new(@game)
   end
+  it "empty boards look right" do
+    board = @display.view
+    expect(board).to include("   |   |   \n")
+    expect(board).to include("\n---+---+---\n")
+  end
   it "has an image of marks after a move" do
     @game.accept_move([0,0], @player1)
     expect(@display.view).to include(" X |   |   ")

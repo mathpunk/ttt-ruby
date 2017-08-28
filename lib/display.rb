@@ -19,9 +19,9 @@ class Display
       (0..2).each do |col_index|
         occupant = moves[[row_index, col_index]] 
         if occupant == :no_one
-          cells.push blank_cell
+          cells.push(blank_cell)
         else
-          cells.push marked_cell("X") 
+          cells.push(marked_cell("X"))
         end
       end
     end
@@ -36,7 +36,7 @@ class Display
     "\n---+---+---\n"
   end
   def empty_board
-    board_cells(Hash.new(:no_one))
+    draw_board(Hash.new(:no_one))
   end
   def update(moves)
     @view = draw_board(moves)

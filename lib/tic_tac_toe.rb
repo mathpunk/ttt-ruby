@@ -42,21 +42,14 @@ class Game
     player.choose_move(@moves)
   end
   def referee_turn
-    player_up = player(:up)
-    chosen_move = request_move(player_up)
-    accept_move(player_up, chosen_move)
-    @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
-  end
-  def referee_turn_io
     if over?
       end_game
     else
-      # @display.update(@moves)
       player_up = player(:up)
-      chosen_move = request_move_io(player_up)
+      chosen_move = request_move(player_up)
       accept_move(player_up, chosen_move)
-      @up = (@up + 1) % 2     # why do the other private accessors work, but not this one?
-      referee_turn_io
+      @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
+      # referee_turn
     end
   end
   def row(n)

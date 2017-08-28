@@ -1,13 +1,12 @@
 class Display
-  def initialize # (game)
-    # game.add_observer(self)
-    @dummy_counter = 0
+  def initialize(game)
+    game.add_observer(self)
   end
   def empty_row
-    "   |   |   "
+    "   |   |   \n"
   end
   def divider
-    "---+---+---"
+    "---+---+---\n"
   end
   def empty_board
     empty_row + divider + empty_row + divider + empty_row
@@ -18,8 +17,7 @@ class Display
     chars[index] = mark
     chars.join("")
   end
-  def update
-    @dummy_counter = @dummy_counter + 1
-    puts @dummy_counter
+  def update(moves)
+    puts empty_board
   end
 end

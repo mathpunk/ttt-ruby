@@ -38,6 +38,9 @@ class Game
   def review_move(move)
     moves[move]
   end
+  def request_move(player)
+    player.choose_move(@moves)
+  end
   def referee_turn
     player_up = player(:up)
     chosen_move = request_move(player_up)
@@ -48,35 +51,13 @@ class Game
     if over?
       end_game
     else
-      @display.update(@moves)
+      # @display.update(@moves)
       player_up = player(:up)
       chosen_move = request_move_io(player_up)
       accept_move(player_up, chosen_move)
       @up = (@up + 1) % 2     # why do the other private accessors work, but not this one?
       referee_turn_io
     end
-  end
-  def request_move(player)
-    possible_moves = (0..2).to_a.product((0..2).to_a)
-    remaining_moves = possible_moves - moves.keys
-    move = remaining_moves.sample
-    if moves[move] == :no_one
-      move
-    else
-      puts "That square is taken, try another"
-      request_move(player)
-    end
-  end
-  def request_move_io(player)
-    puts "The board looks like: "
-    draw_board
-    puts "Choose a square: "
-    response = gets
-    if response
-      move = request_move(player)
-      puts "Eh that's an ok move, but how about " + move.to_s
-    end
-    move
   end
   def row(n)
     moves.select { |move, _| move[0] == n }

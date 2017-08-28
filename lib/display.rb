@@ -40,5 +40,6 @@ class Display
   end
   def update(moves)
     @view = draw_board(moves)
+    puts @view
   end
 end

@@ -1,23 +1,44 @@
 class Display
+  attr_reader :view
   def initialize(game)
     game.add_observer(self)
+    @view = empty_board
+  end
+  def blank_cell
+    "   "
+  end
+  def marked_cell(mark)
+    " " + mark + " "
   end
   def empty_row
     "   |   |   \n"
   end
-  def divider
-    "---+---+---\n"
+  def board_cells(moves)
+    cells = []
+    (0..2).each do |row_index|
+      (0..2).each do |col_index|
+        occupant = moves[[row_index, col_index]] 
+        if occupant == :no_one
+          cells.push blank_cell
+        else
+          cells.push marked_cell("X") 
+        end
+      end
+    end
+    cells
+  end
+  def draw_board(moves)
+    cells = board_cells(moves)
+    dividers = ["|", "|", horizontal_divider, "|", "|", horizontal_divider, "|", "|"]
+    cells.zip(dividers).concat.flatten.join("")
+  end
+  def horizontal_divider
+    "\n---+---+---\n"
   end
   def empty_board
-    empty_row + divider + empty_row + divider + empty_row
-  end
-  def mark_row(column, mark)
-    index = { 0 => 1, 1 => 5, 2 => 9}[column]
-    chars = empty_row.chars
-    chars[index] = mark
-    chars.join("")
+    board_cells(Hash.new(:no_one))
   end
   def update(moves)
-    puts empty_board
+    @view = draw_board(moves)
   end
 end

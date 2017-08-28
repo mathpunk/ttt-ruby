@@ -13,8 +13,8 @@ class Game
   def start(p1, p2)
     players.push(p1)
     players.push(p2)
-    p1.mark = "X" unless p1.mark
-    p2.mark = "O" unless p2.mark
+    p1.choose_mark("X") unless p1.mark
+    p2.choose_mark("O") unless p2.mark
   end
   def play
     referee_turn_io
@@ -39,7 +39,7 @@ class Game
     if moves[move] == :no_one
       changed
       moves[move] = player
-      notify_observers(self)
+      notify_observers(@moves)
     end
   end
   def request_move(player)

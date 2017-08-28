@@ -1,5 +1,6 @@
 require "observer"
 require "player"
+require "display"
 
 class Game
   include Observable
@@ -13,8 +14,6 @@ class Game
   def start(p1, p2)
     players.push(p1)
     players.push(p2)
-    p1.choose_mark("X") unless p1.mark
-    p2.choose_mark("O") unless p2.mark
   end
   def play
     referee_turn_io
@@ -82,8 +81,6 @@ class Game
     winner ? winner : :no_one
   end
 
-  # ==================================
-  # io
   def draw_board
     @display.update(@moves)
   end

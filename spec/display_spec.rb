@@ -4,10 +4,8 @@ require "tic_tac_toe"
 describe Display do
   before(:each) do
     @game = Game.new
-    @player1 = Player.new
-    @player1.choose_mark("X")
-    @player2 = Player.new
-    @player2.choose_mark("O")
+    @player1 = Player.new("Player 1", "X")
+    @player2 = Player.new("Player 2", "O")
     @game.start(@player1, @player2)
     @display = Display.new(@game)
   end

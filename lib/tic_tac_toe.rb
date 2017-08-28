@@ -13,6 +13,8 @@ class Game
   def start(p1, p2)
     players.push(p1)
     players.push(p2)
+    p1.mark = "X" unless p1.mark
+    p2.mark = "O" unless p2.mark
   end
   def play
     referee_turn_io

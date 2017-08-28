@@ -30,6 +30,7 @@ describe TicTacToe do
       @game = Game.new
       @player = Player.new
       @another_player = Player.new
+      @game.start(@player, @another_player)
       @move = [1,1]
       @game.accept_move(@player, @move)
     end

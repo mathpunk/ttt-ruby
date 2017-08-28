@@ -1,41 +1,14 @@
 require "observer"
 require "player"
-require "display"
+require "board"
 
-class Board
+class Adjudicator
   include Observable
-  attr_reader :moves
   def initialize
-    @moves = Hash.new(:no_one)
-    @display = Display.new(self)
-  end
-  def accept_move(player, move)
-    if moves[move] == :no_one
-      changed
-      moves[move] = player
-      notify_observers(moves)
-    end
-  end
-  def review_move(move)
-    moves[move]
-  end
-  def row(n)
-    moves.select { |move, _| move[0] == n }
-  end
-  def column(n)
-    moves.select { |move, _| move[1] == n }
-  end
-  def pos_diagonal
-    moves.select { |move, _| move[0] == move[1] }
-  end
-  def neg_diagonal
-    moves.select { |move, _| move[0] + move[1] == 2}
   end
 end
 
 class Game
-  include Observable
-
   def initialize
     @board = Board.new
     @players = []
@@ -46,7 +19,7 @@ class Game
     players.push(p2)
   end
   def moves
-    @board.moves
+    board.moves
   end
   def play
     referee_turn_io
@@ -62,10 +35,10 @@ class Game
     end
   end
   def accept_move(player, move)
-    @board.accept_move(player, move)
+    board.accept_move(player, move)
   end
   def review_move(move)
-    @board.review_move(move)
+    board.review_move(move)
   end
   def request_move(player)
     player.choose_move(moves)
@@ -76,7 +49,7 @@ class Game
     else
       player_up = player(:up)
       chosen_move = request_move(player_up)
-      accept_move(player_up, chosen_move)
+      board.accept_move(player_up, chosen_move)
       @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
       # referee_turn
     end
@@ -127,6 +100,7 @@ class Game
       end
     end
   end
+
 end
 
 class TicTacToe

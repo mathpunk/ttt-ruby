@@ -4,21 +4,49 @@ require "display"
 
 class Board
   include Observable
+  attr_reader :moves
+  def initialize
+    @moves = Hash.new(:no_one)
+    @display = Display.new(self)
+  end
+  def accept_move(player, move)
+    if moves[move] == :no_one
+      changed
+      moves[move] = player
+      notify_observers(moves)
+    end
+  end
+  def review_move(move)
+    moves[move]
+  end
+  def row(n)
+    moves.select { |move, _| move[0] == n }
+  end
+  def column(n)
+    moves.select { |move, _| move[1] == n }
+  end
+  def pos_diagonal
+    moves.select { |move, _| move[0] == move[1] }
+  end
+  def neg_diagonal
+    moves.select { |move, _| move[0] + move[1] == 2}
+  end
 end
-
 
 class Game
   include Observable
 
   def initialize
-    @moves = Hash.new(:no_one)
+    @board = Board.new
     @players = []
     @up = 0
-    @display = Display.new(self)
   end
   def start(p1, p2)
     players.push(p1)
     players.push(p2)
+  end
+  def moves
+    @board.moves
   end
   def play
     referee_turn_io
@@ -34,14 +62,10 @@ class Game
     end
   end
   def accept_move(player, move)
-    if moves[move] == :no_one
-      changed
-      moves[move] = player
-      notify_observers(moves)
-    end
+    @board.accept_move(player, move)
   end
   def review_move(move)
-    moves[move]
+    @board.review_move(move)
   end
   def request_move(player)
     player.choose_move(moves)
@@ -58,16 +82,16 @@ class Game
     end
   end
   def row(n)
-    moves.select { |move, _| move[0] == n }
+    board.row(n)
   end
   def column(n)
-    moves.select { |move, _| move[1] == n }
+    board.column(n)
   end
   def pos_diagonal
-    moves.select { |move, _| move[0] == move[1] }
+    board.pos_diagonal
   end
   def neg_diagonal
-    moves.select { |move, _| move[0] + move[1] == 2}
+    board.neg_diagonal
   end
   def over?
     winner != :no_one || moves.size == 9
@@ -89,7 +113,7 @@ class Game
   end
 
   private
-  attr_accessor :moves, :players, :up
+  attr_accessor :board, :players, :up
 
   def winner_of_line(line)
     if line.nil? || line.size < 3

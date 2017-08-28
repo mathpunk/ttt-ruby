@@ -5,10 +5,10 @@ class Display
     game.add_observer(self)
   end
   def empty_row
-    "   |   |   "
+    "   |   |   \n"
   end
   def divider
-    "---+---+---"
+    "---+---+---\n"
   end
   def empty_board
     empty_row + divider + empty_row + divider + empty_row
@@ -20,7 +20,7 @@ class Display
     chars.join("")
   end
   def update(moves)
-    puts divider
+    puts empty_board
   end
 end
 

@@ -209,17 +209,17 @@ describe Display do
   end
   it "builds marked rows (col 0)" do
     row = @display.mark_row(0, "X")
-    expected = " X |   |   "
+    expected = " X |   |   \n"
     expect(row).to eq(expected)
   end
   it "builds marked rows (col 1)" do
     row = @display.mark_row(1, "O")
-    expected = "   | O |   "
+    expected = "   | O |   \n"
     expect(row).to eq(expected)
   end
   it "builds marked rows (col 2)" do
     row = @display.mark_row(2, "#")
-    expected = "   |   | # "
+    expected = "   |   | # \n"
     expect(row).to eq(expected)
   end
 end

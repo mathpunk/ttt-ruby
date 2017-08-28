@@ -2,6 +2,11 @@ require "observer"
 require "player"
 require "display"
 
+class Board
+  include Observable
+end
+
+
 class Game
   include Observable
 
@@ -32,14 +37,14 @@ class Game
     if moves[move] == :no_one
       changed
       moves[move] = player
-      notify_observers(@moves)
+      notify_observers(moves)
     end
   end
   def review_move(move)
     moves[move]
   end
   def request_move(player)
-    player.choose_move(@moves)
+    player.choose_move(moves)
   end
   def referee_turn
     if over?

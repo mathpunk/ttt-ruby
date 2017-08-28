@@ -28,17 +28,32 @@ class Game
       players[up]
     end
   end
+  def accept_move(player, move)
+    if moves[move] == :no_one
+      changed
+      moves[move] = player
+      notify_observers(@moves)
+    end
+  end
+  def review_move(move)
+    moves[move]
+  end
   def referee_turn
     player_up = player(:up)
     chosen_move = request_move(player_up)
     accept_move(player_up, chosen_move)
     @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
   end
-  def accept_move(player, move)
-    if moves[move] == :no_one
-      changed
-      moves[move] = player
-      notify_observers(@moves)
+  def referee_turn_io
+    if over?
+      end_game
+    else
+      @display.update(@moves)
+      player_up = player(:up)
+      chosen_move = request_move_io(player_up)
+      accept_move(player_up, chosen_move)
+      @up = (@up + 1) % 2     # why do the other private accessors work, but not this one?
+      referee_turn_io
     end
   end
   def request_move(player)
@@ -52,8 +67,16 @@ class Game
       request_move(player)
     end
   end
-  def review_move(move)
-    moves[move]
+  def request_move_io(player)
+    puts "The board looks like: "
+    draw_board
+    puts "Choose a square: "
+    response = gets
+    if response
+      move = request_move(player)
+      puts "Eh that's an ok move, but how about " + move.to_s
+    end
+    move
   end
   def row(n)
     moves.select { |move, _| move[0] == n }
@@ -81,35 +104,9 @@ class Game
     winner ? winner : :no_one
   end
 
-  def draw_board
-    @display.update(@moves)
-  end
   def end_game
     puts "Game over"
     puts winner.inspect + " wins"
-  end
-  def referee_turn_io
-    if over?
-      end_game
-    else
-      @display.update(@moves)
-      player_up = player(:up)
-      chosen_move = request_move_io(player_up)
-      accept_move(player_up, chosen_move)
-      @up = (@up + 1) % 2     # why do the other private accessors work, but not this one?
-      referee_turn_io
-    end
-  end
-  def request_move_io(player)
-    puts "The board looks like: "
-    draw_board
-    puts "Choose a square: "
-    response = gets
-    if response
-      move = request_move(player)
-      puts "Eh that's an ok move, but how about " + move.to_s
-    end
-    move
   end
 
   private

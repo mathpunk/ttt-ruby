@@ -5,7 +5,7 @@ class Player
     @mark = nil
   end
   def choose_move(moves)
-    possible_moves = (0..2).to_a.product((0..2).to_a)
+    possible_moves = (0..2).to_a.product((0..2).to_a).collect { |coord| Move.new(coord) }
     remaining_moves = possible_moves - moves.keys
     move = remaining_moves.sample
     if moves[move] == :no_one

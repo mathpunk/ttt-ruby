@@ -18,16 +18,16 @@ class Board
     moves[move]
   end
   def row(n)
-    moves.select { |move, _| move[0] == n }
+    moves.select { |move, _| move.row == n }
   end
   def column(n)
-    moves.select { |move, _| move[1] == n }
+    moves.select { |move, _| move.column == n }
   end
   def pos_diagonal
-    moves.select { |move, _| move[0] == move[1] }
+    moves.select { |move, _| move.row == move.column }
   end
   def neg_diagonal
-    moves.select { |move, _| move[0] + move[1] == 2}
+    moves.select { |move, _| move.row + move.column == 2}
   end
   def winner_of_line(line)
     if line.nil? || line.size < 3

@@ -1,4 +1,5 @@
 require "tic_tac_toe"
+require "move"
 
 describe TicTacToe do
   context "when beginning" do
@@ -36,7 +37,7 @@ describe TicTacToe do
       @player = Player.new
       @another_player = Player.new
       @game = Game.new(@player, @another_player)
-      @move = [1,1]
+      @move = Move.new(1,1)
       @game.accept_move(@player, @move)
     end
     it "remembers who moved to a square" do
@@ -46,8 +47,8 @@ describe TicTacToe do
     end
     it "knows if no one has moved to a square" do
       @game.accept_move(@player, @move)
-      no_move = [0,0]
-      occupant = @game.review_move(no_move)
+      didnt_move = Move.new(0,0)
+      occupant = @game.review_move(didnt_move)
       expect(occupant).to be(:no_one)
     end
     it "forbids square-stealing" do
@@ -88,15 +89,15 @@ describe TicTacToe do
       expect(@game.row(2)).to be_empty
     end
     it "rows can be filled" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [0,1])
-      @game.accept_move(@player, [0,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([0,1]))
+      @game.accept_move(@player, Move.new([0,2]))
       expect(@game.row(0).size).to eq(3)
     end
     it "squares in a rows are collinear" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [0,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([0,2]))
       expect(@game.row(0).size).to be < 3
     end
     it "columns begin empty" do
@@ -105,15 +106,15 @@ describe TicTacToe do
       expect(@game.column(2)).to be_empty
     end
     it "columns can be filled" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,0])
-      @game.accept_move(@player, [2,0])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,0]))
+      @game.accept_move(@player, Move.new([2,0]))
       expect(@game.column(0).size).to eq(3)
     end
     it "squares in a columns are collinear" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [2,0])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([2,0]))
       expect(@game.column(0).size).to be < 3
     end
     it "pos_diagonal begins empty" do
@@ -122,15 +123,15 @@ describe TicTacToe do
       expect(@game.pos_diagonal).to be_empty
     end
     it "pos_diagonal can be filled" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [2,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([2,2]))
       expect(@game.pos_diagonal.size).to eq(3)
     end
     it "squares in the pos_diagonal are collinear" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,2])
-      @game.accept_move(@player, [2,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,2]))
+      @game.accept_move(@player, Move.new([2,2]))
       expect(@game.pos_diagonal.size).to be < 3
     end
     it "neg_diagonal begins empty" do
@@ -139,15 +140,15 @@ describe TicTacToe do
       expect(@game.neg_diagonal).to be_empty
     end
     it "neg_diagonal can be filled" do
-      @game.accept_move(@player, [0,2])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [2,0])
+      @game.accept_move(@player, Move.new([0,2]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([2,0]))
       expect(@game.neg_diagonal.size).to eq(3)
     end
     it "squares in the neg_diagonal are collinear" do
-      @game.accept_move(@player, [0,2])
-      @game.accept_move(@player, [1,2])
-      @game.accept_move(@player, [2,0])
+      @game.accept_move(@player, Move.new([0,2]))
+      @game.accept_move(@player, Move.new([1,2]))
+      @game.accept_move(@player, Move.new([2,0]))
       expect(@game.neg_diagonal.size).to be < 3
     end
   end
@@ -158,27 +159,27 @@ describe TicTacToe do
       @game = Game.new(@player, @another_player)
     end
     it "can award victory to player one" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [2,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([2,2]))
       expect(@game.winner).to eq(@player)
     end
     it "can award victory to player two" do
-      @game.accept_move(@another_player, [0,0])
-      @game.accept_move(@another_player, [1,0])
-      @game.accept_move(@another_player, [2,0])
+      @game.accept_move(@another_player, Move.new([0,0]))
+      @game.accept_move(@another_player, Move.new([1,0]))
+      @game.accept_move(@another_player, Move.new([2,0]))
       expect(@game.winner).to eq(@another_player)
     end
     it "can award victory to player one in another way" do
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [1,0])
-      @game.accept_move(@player, [1,2])
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([1,0]))
+      @game.accept_move(@player, Move.new([1,2]))
       expect(@game.winner).to eq(@player)
     end
     it "is over" do
-      @game.accept_move(@player, [0,0])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [2,2])
+      @game.accept_move(@player, Move.new([0,0]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([2,2]))
       expect(@game.over?).to be true
     end
   end
@@ -188,16 +189,16 @@ describe TicTacToe do
       @player = Player.new
       @another_player = Player.new
       @game = Game.new(@player, @another_player)
-      @game.accept_move(@player, [0,1])
-      @game.accept_move(@player, [1,1])
-      @game.accept_move(@player, [1,2])
-      @game.accept_move(@player, [2,0])
-      @game.accept_move(@player, [2,2])
+      @game.accept_move(@player, Move.new([0,1]))
+      @game.accept_move(@player, Move.new([1,1]))
+      @game.accept_move(@player, Move.new([1,2]))
+      @game.accept_move(@player, Move.new([2,0]))
+      @game.accept_move(@player, Move.new([2,2]))
 
-      @game.accept_move(@another_player, [0,0])
-      @game.accept_move(@another_player, [0,2])
-      @game.accept_move(@another_player, [1,0])
-      @game.accept_move(@another_player, [2,1])
+      @game.accept_move(@another_player, Move.new([0,0]))
+      @game.accept_move(@another_player, Move.new([0,2]))
+      @game.accept_move(@another_player, Move.new([1,0]))
+      @game.accept_move(@another_player, Move.new([2,1]))
     end
     it "does not award victory to anyone" do
       expect(@game.winner).to eq(:no_one)

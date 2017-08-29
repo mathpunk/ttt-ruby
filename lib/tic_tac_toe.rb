@@ -36,7 +36,7 @@ class Game
     board.review_move(move)
   end
   def request_move(player)
-    player.choose_move(moves)
+    player.choose_move(board)
   end
   def play_round
     if over?

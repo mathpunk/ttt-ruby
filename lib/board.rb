@@ -16,30 +16,30 @@ class Board
       :square_occupied
     end
   end
-  def non_empty_moves
-    @moves.select { |occupant| occupant != :no_one }
-  end
   def review_move(move)
     index = move.spot-1
     moves[index]
   end
   def row(n)
-    non_empty_moves.select { |move, _| move.row == n }
+    moves[3*n,3].reject { |entry| entry == :no_one }
   end
   def rows
     (0..2).collect { |n| row(n) }
   end
   def column(n)
-    non_empty_moves.select { |move, _| move.column == n }
+    indices = (0...9).select { |index| index % 3 == n}
+    entries = []
+    indices.each { |i| entries.push(moves[i]) }
+    entries.reject { |entry| entry == :no_one }
   end
   def columns
     (0..2).collect { |n| column(n) }
   end
   def pos_diagonal
-    non_empty_moves.select { |move, _| move.row == move.column }
+    [moves[0], moves[4], moves[8]].reject { |entry| entry == :no_one }
   end
   def neg_diagonal
-    non_empty_moves.select { |move, _| move.row + move.column == 2}
+    [moves[2],moves[4],moves[6]].reject { |entry| entry == :no_one }
   end
   def diagonals
     [].push(pos_diagonal).push(neg_diagonal)
@@ -49,20 +49,18 @@ class Board
   end
   def winner
     winner = lines.detect { |line| winner_of_line(line) }
-    winner ? winner.values[0] : :no_one
+    winner ? winner[0] : :no_one
   end
   private
   def winner_of_line(line)
     if line.nil? || line.size < 3
       nil
     else
-      occupants = line.values
-      if occupants.all? { |occupant| occupant == occupants[0] }
-        occupants[0]
+      if line.all? { |occupant| occupant == line[0] }
+        line[0]
       else
         nil
       end
     end
   end
-
 end

@@ -1,6 +1,7 @@
 class Display
   attr_reader :view
-  def initialize(board)
+  def initialize(game, board)
+    game.add_observer(self)
     board.add_observer(self)
     @view = empty_board
   end

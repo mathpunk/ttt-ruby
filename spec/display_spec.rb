@@ -7,8 +7,8 @@ describe Display do
     @player1 = Player.new("Player 1", "X")
     @player2 = Player.new("Player 2", "O")
     @game = Game.new(@player1, @player2)
-    @board = Board.new
-    @display = Display.new(@board)
+    @board = @game.board
+    @display = @game.display
   end
   it "empty boards look right" do
     board = @display.view

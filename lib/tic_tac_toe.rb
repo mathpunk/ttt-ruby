@@ -3,12 +3,14 @@ require_relative "player"
 require_relative "board"
 
 class Game
-  attr_reader :board
+  include Observable
+  attr_reader :board, :display
   # Starting, turn-taking, and ending.
   def initialize(p1, p2)
     @board = Board.new
     @players = [p1, p2]
     @up = 0
+    @display = Display.new(self, @board)
   end
   def moves
     board.moves

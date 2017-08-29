@@ -3,6 +3,7 @@ require_relative "player"
 require_relative "board"
 
 class Game
+  attr_reader :board
   # Starting, turn-taking, and ending.
   def initialize(p1, p2)
     @board = Board.new
@@ -46,18 +47,6 @@ class Game
       # referee_turn
     end
   end
-  def row(n)
-    board.row(n)
-  end
-  def column(n)
-    board.column(n)
-  end
-  def pos_diagonal
-    board.pos_diagonal
-  end
-  def neg_diagonal
-    board.neg_diagonal
-  end
   def over?
     winner != :no_one || moves.size == 9
   end
@@ -71,7 +60,7 @@ class Game
   end
 
   private
-  attr_accessor :board, :players, :up
+  attr_accessor  :players, :up
 
 end
 

@@ -4,7 +4,7 @@ class Player
   attr_reader :mark
   def initialize(name = "Anonymous", mark = "#")
     @name = name
-    @mark = nil
+    @mark = mark
   end
   def choose_move(board)
     spot = (1..9).to_a.sample

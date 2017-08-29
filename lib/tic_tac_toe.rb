@@ -18,9 +18,18 @@ class Game
     board.moves
   end
   def play
-    play_round
+    unless over?
+      play_round
+    else
+      end_game
+    end
   end
-
+  def play_round
+    player_up = player(:up)
+    chosen_move = request_move(player_up)
+    board.accept_move(player_up, chosen_move)
+    @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
+  end
   def player(question)
     case question
     when 1
@@ -39,17 +48,6 @@ class Game
   end
   def request_move(player)
     player.choose_move(board)
-  end
-  def play_round
-    if over?
-      end_game
-    else
-      player_up = player(:up)
-      chosen_move = request_move(player_up)
-      board.accept_move(player_up, chosen_move)
-      @up = (@up + 1) % 2   # b/c up and self.up didn't work :(
-      # referee_turn
-    end
   end
   def over?
     winner != :no_one || moves.all? { |occupant| occupant != :no_one }

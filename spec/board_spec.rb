@@ -4,7 +4,7 @@ require "board"
 require "move"
 
 describe Board do
-  context "regarding rows, columns, and diagonals:" do
+  context "rows, columns, and diagonals" do
     before(:each) do
       @player = Player.new
       @another_player = Player.new
@@ -80,5 +80,4 @@ describe Board do
       expect(@board.neg_diagonal.size).to be < 3
     end
   end
-
 end

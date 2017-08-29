@@ -25,6 +25,11 @@ describe Display do
       expect{Game.new(@player1, @player2)}.to output(empty_board).to_stdout
     end
   end
+  context "when playing" do
+    it "shows the first player's mark" do
+      expect{@game.play_round}.to output(/X/).to_stdout
+    end
+  end
 end
 
   # it "empty boards look right" do

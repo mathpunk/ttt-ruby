@@ -4,37 +4,42 @@ class Board
   include Observable
   attr_reader :moves
   def initialize
-    @moves = Hash.new(:no_one)
+    @moves = Array.new(9, :no_one)
   end
   def accept_move(player, move)
-    if moves[move] == :no_one
+    index = move.spot-1
+    if moves[index] == :no_one
       changed
-      moves[move] = player
-      notify_observers(moves)
+      moves[index] = player
+      notify_observers(true)
     else
       :square_occupied
     end
   end
+  def non_empty_moves
+    @moves.select { |occupant| occupant != :no_one }
+  end
   def review_move(move)
-    moves[move]
+    index = move.spot-1
+    moves[index]
   end
   def row(n)
-    moves.select { |move, _| move.row == n }
+    non_empty_moves.select { |move, _| move.row == n }
   end
   def rows
     (0..2).collect { |n| row(n) }
   end
   def column(n)
-    moves.select { |move, _| move.column == n }
+    non_empty_moves.select { |move, _| move.column == n }
   end
   def columns
     (0..2).collect { |n| column(n) }
   end
   def pos_diagonal
-    moves.select { |move, _| move.row == move.column }
+    non_empty_moves.select { |move, _| move.row == move.column }
   end
   def neg_diagonal
-    moves.select { |move, _| move.row + move.column == 2}
+    non_empty_moves.select { |move, _| move.row + move.column == 2}
   end
   def diagonals
     [].push(pos_diagonal).push(neg_diagonal)

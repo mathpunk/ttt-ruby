@@ -3,7 +3,7 @@ class Display
   def initialize(game, board)
     game.add_observer(self)
     board.add_observer(self)
-    @view = empty_board
+    @view = board
   end
   def blank_cell
     "   "
@@ -14,19 +14,17 @@ class Display
   def empty_row
     "   |   |   \n"
   end
-  def board_cells(moves)
-    cells = []
-    (0..2).each do |row_index|
-      (0..2).each do |col_index|
-        occupant = moves[[row_index, col_index]] 
-        if occupant == :no_one
-          cells.push(blank_cell)
-        else
-          cells.push(marked_cell("X"))
-        end
+  def board_cells(board)
+    sprites = []
+    (1..9).each do |spot|
+      occupant = board.review_move(Move.new(spot))
+      if occupant == :no_one
+        sprites.push(blank_cell)
+      else
+        sprites.push(marked_cell("X"))
       end
     end
-    cells
+    sprites
   end
   def draw_board(moves)
     cells = board_cells(moves)
@@ -36,11 +34,7 @@ class Display
   def horizontal_divider
     "\n---+---+---\n"
   end
-  def empty_board
-    draw_board(Hash.new(:no_one))
-  end
-  def update(moves)
-    @view = draw_board(moves)
+  def update(_)
     puts @view
   end
 end

@@ -50,7 +50,7 @@ class Game
     end
   end
   def over?
-    winner != :no_one || moves.size == 9
+    winner != :no_one || moves.all? { |occupant| occupant != :no_one }
   end
   def winner
     @board.winner

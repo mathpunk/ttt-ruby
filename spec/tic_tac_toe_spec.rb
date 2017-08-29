@@ -3,10 +3,9 @@ require "tic_tac_toe"
 describe TicTacToe do
   context "when beginning" do
     before(:each) do
-      @game = Game.new
       @player = Player.new
       @another_player = Player.new
-      @game.start(@player, @another_player)
+      @game = Game.new(@player, @another_player)
     end
     it "can get the players" do
       expect(@game.player(1)).to eq(@player)
@@ -15,22 +14,28 @@ describe TicTacToe do
     it "is player one's turn to go" do
       expect(@game.player(:up)).to eq(@player)
     end
+  end
+  context "when playing" do
+    before(:each) do
+      @player = Player.new
+      @another_player = Player.new
+      @game = Game.new(@player, @another_player)
+    end
     it "is player two's turn after a move has been refereed" do
-      @game.referee_turn
+      @game.play_round
       expect(@game.player(:up)).to eq(@another_player)
     end
     it "is player one's turn after two moves have been refereed" do
-      @game.referee_turn
-      @game.referee_turn
+      @game.play_round
+      @game.play_round
       expect(@game.player(:up)).to eq(@player)
     end
   end
   context "when moving" do
     before(:each) do
-      @game = Game.new
       @player = Player.new
       @another_player = Player.new
-      @game.start(@player, @another_player)
+      @game = Game.new(@player, @another_player)
       @move = [1,1]
       @game.accept_move(@player, @move)
     end
@@ -53,30 +58,29 @@ describe TicTacToe do
   end
   context "when playing" do
     before(:each) do
-      @game = Game.new
       @player = Player.new
       @another_player = Player.new
-      @game.start(@player, @another_player)
+      @game = Game.new(@player, @another_player)
     end
     it "begins with player one" do
       expect(@game.player(:up)). to eq(@player)
     end
     it "player two goes next" do
-      @game.referee_turn
+      @game.play_round
       expect(@game.player(:up)). to eq(@another_player)
     end
     it "player one goes third" do
-      @game.referee_turn
-      @game.referee_turn
+      @game.play_round
+      @game.play_round
       expect(@game.player(:up)). to eq(@player)
     end
 
   end
   context "regarding rows, columns, and diagonals:" do
     before(:each) do
-      @game = Game.new
       @player = Player.new
       @another_player = Player.new
+      @game = Game.new(@player, @another_player)
     end
     it "rows begin empty" do
       expect(@game.row(0)).to be_empty
@@ -149,9 +153,9 @@ describe TicTacToe do
   end
   context "when victory conditions met" do
     before(:each) do
-      @game = Game.new
       @player = Player.new
       @another_player = Player.new
+      @game = Game.new(@player, @another_player)
     end
     it "can award victory to player one" do
       @game.accept_move(@player, [0,0])
@@ -180,9 +184,10 @@ describe TicTacToe do
   end
   context "in a cat's game" do
     before(:each) do
-      @game = Game.new
+
       @player = Player.new
       @another_player = Player.new
+      @game = Game.new(@player, @another_player)
       @game.accept_move(@player, [0,1])
       @game.accept_move(@player, [1,1])
       @game.accept_move(@player, [1,2])

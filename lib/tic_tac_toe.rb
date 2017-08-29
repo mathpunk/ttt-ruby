@@ -1,29 +1,21 @@
 require "observer"
-require "player"
-require "board"
-
-class Adjudicator
-  include Observable
-  def initialize
-  end
-end
+require_relative "player"
+require_relative "board"
 
 class Game
-  def initialize
+  # Starting, turn-taking, and ending.
+  def initialize(p1, p2)
     @board = Board.new
-    @players = []
+    @players = [p1, p2]
     @up = 0
-  end
-  def start(p1, p2)
-    players.push(p1)
-    players.push(p2)
   end
   def moves
     board.moves
   end
   def play
-    referee_turn_io
+    play_round
   end
+
   def player(question)
     case question
     when 1
@@ -43,7 +35,7 @@ class Game
   def request_move(player)
     player.choose_move(moves)
   end
-  def referee_turn
+  def play_round
     if over?
       end_game
     else
@@ -70,14 +62,7 @@ class Game
     winner != :no_one || moves.size == 9
   end
   def winner
-    rows = (0..2).reduce([]) { |acc, n| acc.push row(n) }
-    columns = (0..2).reduce([]) { |acc, n| acc.push column(n) }
-    diagonals = [].push(pos_diagonal).push(neg_diagonal)
-    lines = rows + columns + diagonals
-    winning_lines = lines.select { |line| winner_of_line(line) }
-    winning_line = winning_lines[0] # NB: simultaneous winners unguarded against (but should be impossible)
-    winner = winner_of_line(winning_line)
-    winner ? winner : :no_one
+    @board.winner
   end
 
   def end_game
@@ -87,19 +72,6 @@ class Game
 
   private
   attr_accessor :board, :players, :up
-
-  def winner_of_line(line)
-    if line.nil? || line.size < 3
-      nil
-    else
-      occupants = line.values
-      if occupants.all? { |occupant| occupant == occupants[0] }
-        occupants[0]
-      else
-        nil
-      end
-    end
-  end
 
 end
 

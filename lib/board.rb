@@ -1,4 +1,4 @@
-require "display"
+require_relative "display"
 
 class Board
   include Observable
@@ -28,5 +28,28 @@ class Board
   end
   def neg_diagonal
     moves.select { |move, _| move[0] + move[1] == 2}
+  end
+  def winner_of_line(line)
+    if line.nil? || line.size < 3
+      nil
+    else
+      occupants = line.values
+      if occupants.all? { |occupant| occupant == occupants[0] }
+        occupants[0]
+      else
+        nil
+      end
+    end
+  end
+
+  def winner
+    rows = (0..2).reduce([]) { |acc, n| acc.push row(n) }
+    columns = (0..2).reduce([]) { |acc, n| acc.push column(n) }
+    diagonals = [].push(pos_diagonal).push(neg_diagonal)
+    lines = rows + columns + diagonals
+    winning_lines = lines.select { |line| winner_of_line(line) }
+    winning_line = winning_lines[0] # NB: simultaneous winners unguarded against (but should be impossible)
+    winner = winner_of_line(winning_line)
+    winner ? winner : :no_one
   end
 end

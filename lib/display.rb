@@ -1,9 +1,10 @@
 class Display
   attr_reader :view
   def initialize(game, board)
-    game.add_observer(self)
-    board.add_observer(self)
-    @view = board
+    @game = game
+    @board = board
+    @game.add_observer(self)
+    @board.add_observer(self)
   end
   def blank_cell
     "   "
@@ -14,6 +15,10 @@ class Display
   def empty_row
     "   |   |   \n"
   end
+  def horizontal_divider
+    "\n---+---+---\n"
+  end
+
   def board_cells(board)
     sprites = []
     (1..9).each do |spot|
@@ -31,10 +36,7 @@ class Display
     dividers = ["|", "|", horizontal_divider, "|", "|", horizontal_divider, "|", "|"]
     cells.zip(dividers).concat.flatten.join("")
   end
-  def horizontal_divider
-    "\n---+---+---\n"
-  end
-  def update(_)
-    puts @view
+  def update
+    puts @board
   end
 end

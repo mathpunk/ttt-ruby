@@ -11,7 +11,7 @@ class Board
     if moves[index] == :no_one
       changed
       moves[index] = player
-      notify_observers(true)
+      notify_observers
     else
       :square_occupied
     end

@@ -1,7 +1,8 @@
 require "tic_tac_toe"
 require "move"
 
-describe TicTacToe do
+
+describe Game do
   context "when beginning" do
     before(:each) do
       @player = Player.new
@@ -75,6 +76,7 @@ describe TicTacToe do
       @game.play_round
       expect(@game.player(:up)). to eq(@player)
     end
+
   end
   context "when victory conditions met" do
     before(:each) do

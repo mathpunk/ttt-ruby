@@ -11,6 +11,8 @@ class Game
     @players = [p1, p2]
     @up = 0
     @display = Display.new(self, @board)
+    changed
+    notify_observers
   end
   def moves
     board.moves

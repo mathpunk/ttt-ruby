@@ -1,5 +1,4 @@
 class Display
-  attr_reader :view
   def initialize(game, board)
     @game = game
     @board = board
@@ -18,11 +17,9 @@ class Display
   def horizontal_divider
     "\n---+---+---\n"
   end
-
-  def board_cells(board)
+  def squares
     sprites = []
-    (1..9).each do |spot|
-      occupant = board.review_move(Move.new(spot))
+    board.moves.each do |occupant|
       if occupant == :no_one
         sprites.push(blank_cell)
       else
@@ -31,12 +28,13 @@ class Display
     end
     sprites
   end
-  def draw_board(moves)
-    cells = board_cells(moves)
+  def board_representation
     dividers = ["|", "|", horizontal_divider, "|", "|", horizontal_divider, "|", "|"]
-    cells.zip(dividers).concat.flatten.join("")
+    squares.zip(dividers).concat.flatten.join("")
   end
   def update
-    puts @board
+    puts board_representation
   end
+  private
+  attr_reader :board
 end

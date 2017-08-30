@@ -17,7 +17,7 @@ class Game
   end
 
   def play
-    unless board.over?
+    unless over?
       play_round
     else
       end_game

@@ -2,16 +2,16 @@ require_relative "move"
 
 class Player
   attr_reader :mark
+
   def initialize(name = "Anonymous", mark = "#")
     @name = name
     @mark = mark
   end
+
   def choose_move
     spot = (1..9).to_a.sample
     Move.new(spot)
   end
-
-  private
 end
 
 class ConsolePlayer < Player
@@ -21,6 +21,7 @@ class ConsolePlayer < Player
     validate_move(response)
     Move.new(response)
   end
+
   def validate_move(choice)
     unless (1..9).include? choice
       puts "#{choice} is not a valid move."
@@ -39,8 +40,13 @@ class DeterministicPlayer < Player
       @strategy = [5, 2, 3, 8]
     end
   end
+
   def choose_move
     spot = @strategy.shift
     Move.new(spot)
+  end
+
+  def peek
+    Move.new(@strategy[0])
   end
 end

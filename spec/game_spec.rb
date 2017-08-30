@@ -17,48 +17,7 @@ describe Game do
       expect(@game.player(:up)).to eq(@player)
     end
   end
-  context "when playing" do
-    before(:each) do
-      @player = Player.new
-      @another_player = Player.new
-      @game = Game.new(@player, @another_player)
-    end
-    it "is player two's turn after a move has been refereed" do
-      @game.play_round
-      expect(@game.player(:up)).to eq(@another_player)
-    end
-    it "is player one's turn after two moves have been refereed" do
-      @game.play_round
-      @game.play_round
-      expect(@game.player(:up)).to eq(@player)
-    end
-  end
-  context "when moving" do
-    before(:each) do
-      @player = Player.new
-      @another_player = Player.new
-      @game = Game.new(@player, @another_player)
-      @move = Move.new(1,1)
-      @game.accept_move(@player, @move)
-    end
-    it "remembers who moved to a square" do
-      @game.accept_move(@player, @move)
-      occupant = @game.review_move(@move)
-      expect(occupant).to be(@player)
-    end
-    it "knows if no one has moved to a square" do
-      @game.accept_move(@player, @move)
-      didnt_move = Move.new(0,0)
-      occupant = @game.review_move(didnt_move)
-      expect(occupant).to be(:no_one)
-    end
-    it "forbids square-stealing" do
-      @game.accept_move(@another_player, @move)
-      occupant = @game.review_move(@move)
-      expect(occupant).to be(@player)
-    end
-  end
-  context "when playing" do
+  context "turn-taking" do
     before(:each) do
       @player = Player.new
       @another_player = Player.new
@@ -78,59 +37,54 @@ describe Game do
     end
 
   end
-  context "when victory conditions met" do
+  context "when an occupied square is chosen by a player" do
     before(:each) do
-      @player = Player.new
-      @another_player = Player.new
-      @game = Game.new(@player, @another_player)
+      @player = DeterministicPlayer.new(1)
+      @same_player = DeterministicPlayer.new(1)
+      @game = Game.new(@player, @same_player)
+      @game.play_round
     end
-    it "can award victory to player one" do
-      @game.accept_move(@player, Move.new([0,0]))
-      @game.accept_move(@player, Move.new([1,1]))
-      @game.accept_move(@player, Move.new([2,2]))
-      expect(@game.winner).to eq(@player)
+    it "tells the player square-stealing is forbidden" do
+      expect{@game.play_round}.to output(/That square is occupied. Choose another./).to_stdout
     end
-    it "can award victory to player two" do
-      @game.accept_move(@another_player, Move.new([0,0]))
-      @game.accept_move(@another_player, Move.new([1,0]))
-      @game.accept_move(@another_player, Move.new([2,0]))
-      expect(@game.winner).to eq(@another_player)
+    # Q: How to say, expect @same_player to receive choose_move twice?
+  end
+  context "victory conditions" do
+    before(:each) do
+      @player = DeterministicPlayer.new(1)
+      @another_player = DeterministicPlayer.new(2)
+      @game = Game.new(@player, @same_player)
+      @game.play
     end
-    it "can award victory to player one in another way" do
-      @game.accept_move(@player, Move.new([1,1]))
-      @game.accept_move(@player, Move.new([1,0]))
-      @game.accept_move(@player, Move.new([1,2]))
-      expect(@game.winner).to eq(@player)
+    it "recognizes DeterministicPlayer(2) as the winner" do
+      expect(@game.winner).to be(@another_player)
     end
-    it "is over" do
-      @game.accept_move(@player, Move.new([0,0]))
-      @game.accept_move(@player, Move.new([1,1]))
-      @game.accept_move(@player, Move.new([2,2]))
+    it "ends the game" do
       expect(@game.over?).to be true
     end
   end
-  context "in a cat's game" do
-    before(:each) do
+  # context "in a cat's game" do
+  #   before(:each) do
 
-      @player = Player.new
-      @another_player = Player.new
-      @game = Game.new(@player, @another_player)
-      @game.accept_move(@player, Move.new([0,1]))
-      @game.accept_move(@player, Move.new([1,1]))
-      @game.accept_move(@player, Move.new([1,2]))
-      @game.accept_move(@player, Move.new([2,0]))
-      @game.accept_move(@player, Move.new([2,2]))
+  #     @player = Player.new
+  #     @another_player = Player.new
+  #     @game = Game.new(@player, @another_player)
+  #     # @game.accept_move(@player, Move.new([0,1]))
+  #     # @game.accept_move(@player, Move.new([1,1]))
+  #     # @game.accept_move(@player, Move.new([1,2]))
+  #     # @game.accept_move(@player, Move.new([2,0]))
+  #     # @game.accept_move(@player, Move.new([2,2]))
 
-      @game.accept_move(@another_player, Move.new([0,0]))
-      @game.accept_move(@another_player, Move.new([0,2]))
-      @game.accept_move(@another_player, Move.new([1,0]))
-      @game.accept_move(@another_player, Move.new([2,1]))
-    end
-    it "does not award victory to anyone" do
-      expect(@game.winner).to eq(:no_one)
-    end
-    it "is over" do
-      expect(@game.over?).to be true
-    end
-  end
+  #     # @game.accept_move(@another_player, Move.new([0,0]))
+  #     # @game.accept_move(@another_player, Move.new([0,2]))
+  #     # @game.accept_move(@another_player, Move.new([1,0]))
+  #     # @game.accept_move(@another_player, Move.new([2,1]))
+  #   end
+  #   it "does not award victory to anyone" do
+  #     expect(@game.winner).to eq(:no_one)
+  #   end
+  #   it "is over" do
+  #     expect(@game.over?).to be true
+  #   end
+  # end
 end

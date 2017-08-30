@@ -1,7 +1,7 @@
 require "player"
-require "tic_tac_toe"
 require "board"
 require "move"
+require "game"
 
 describe Board do
   context "rows, columns, and diagonals" do
@@ -31,6 +31,24 @@ describe Board do
         expect(@board.neg_diagonal).to be_empty
         expect(@board.neg_diagonal).to be_empty
         expect(@board.neg_diagonal).to be_empty
+      end
+    end
+    context "as a data structure for moves" do
+      before(:each) do
+        @player = DeterministicPlayer.new(1)
+        @another_player = DeterministicPlayer.new(2)
+        @player_first_move = @player.peek
+        @game = Game.new(@player, @another_player)
+        @board = @game.board
+        @game.play_round
+      end
+      it "remembers who moved to a square" do
+        expect(@board.review_move(@player_first_move)).to eq(@player)
+      end
+      it "remembers unoccupied squares" do
+        didnt_move = @another_player.peek
+        occupant = @game.review_move(didnt_move)
+        expect(occupant).to be(:no_one)
       end
     end
   end

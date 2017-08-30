@@ -16,6 +16,7 @@ describe Display do
   it "streams to stdout when there's a move" do
     expect{@game.play_round}.to output(/.*/).to_stdout
   end
+
   context "when beginning" do
     it "prints to the console" do
       expect{Game.new(@player1, @player2)}.to output(/.*/).to_stdout
@@ -25,6 +26,7 @@ describe Display do
       expect{Game.new(@player1, @player2)}.to output(empty_board).to_stdout
     end
   end
+
   context "rows" do
     it "renders move to spot by player one" do
       move = Move.new(1)
@@ -35,6 +37,7 @@ describe Display do
       expect{@game.accept_move(@player2, move)}.to output(/   | O |   /).to_stdout
     end
   end
+
   context "when playing" do
     it "shows the first player's mark" do
       expect{@game.play_round}.to output(/X/).to_stdout

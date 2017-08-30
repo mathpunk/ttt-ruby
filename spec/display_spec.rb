@@ -1,11 +1,13 @@
 require "display"
 require "tic_tac_toe"
 require "move"
+require "player"
+require "game"
 
 describe Display do
   before(:each) do
-    @player1 = Player.new("Player 1", "X")
-    @player2 = Player.new("Player 2", "O")
+    @player1 = DeterministicPlayer.new(1)
+    @player2 = DeterministicPlayer.new(2)
     @game = Game.new(@player1, @player2)
     @board = @game.board
     @display = @game.display
@@ -27,24 +29,20 @@ describe Display do
     end
   end
 
-  context "rows" do
-    it "renders move to spot by player one" do
-      move = Move.new(1)
-      expect{@game.accept_move(@player1, move)}.to output(/ X |   |   /).to_stdout
-    end
-    it "renders move to coordinate by player two" do
-      move = Move.new([1,1])
-      expect{@game.accept_move(@player2, move)}.to output(/   | O |   /).to_stdout
-    end
-  end
-
   context "when playing" do
-    it "shows the first player's mark" do
-      expect{@game.play_round}.to output(/X/).to_stdout
+    it "places player one's mark correctly in its row" do
+      expect{@game.play_round}.to output(/ X |   |   /).to_stdout
     end
-    it "shows the second player's mark" do
+    it "places player two's mark correctly in its row" do
       @game.play_round
-      expect{@game.play_round}.to output(/O/).to_stdout
+      expect{@game.play_round}.to output(/   | O |   /).to_stdout
+    end
+    it "places player one's mark correctly on the board" do
+      expect{@game.play_round}.to output(/ X |   |   \n   |   |   \n   |   |   /).to_stdout
+    end
+    it "places player two's mark correctly on the board" do
+      @game.play_round
+      expect{@game.play_round}.to output(/ X |   |   \n   | O |   \n   |   |   /).to_stdout
     end
   end
 end

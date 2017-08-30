@@ -6,7 +6,7 @@ class Player
     @name = name
     @mark = mark
   end
-  def choose_move(board)
+  def choose_move
     spot = (1..9).to_a.sample
     Move.new(spot)
   end
@@ -19,7 +19,7 @@ class ConsolePlayer < Player
     puts "Choose a square (1-9): "
     response = gets
     validate_move(response)
-    move = Move.new(response)
+    Move.new(response)
   end
   def validate_move(choice)
     unless (1..9).include? choice
@@ -40,6 +40,7 @@ class DeterministicPlayer < Player
     end
   end
   def choose_move
-    @strategy.shift
+    spot = @strategy.shift
+    Move.new(spot)
   end
 end

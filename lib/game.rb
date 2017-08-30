@@ -51,7 +51,7 @@ class Game
   end
 
   def request_move(player)
-    move = player.choose_move(board)
+    move = player.choose_move
     if board.review_move(move) == :no_one
       move
     else

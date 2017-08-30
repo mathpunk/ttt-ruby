@@ -29,6 +29,7 @@ class Game
     chosen_move = request_move(current_player)
     board.accept_move(current_player, chosen_move)
     @current_player = (@current_player + 1) % 2
+    play
   end
 
   def player(question)

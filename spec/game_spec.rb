@@ -49,18 +49,18 @@ describe Game do
     end
     # Q: How to say, expect @same_player to receive choose_move twice?
   end
-  context "victory conditions" do
+  context "when a game is played" do
     before(:each) do
       @player = DeterministicPlayer.new(1)
       @another_player = DeterministicPlayer.new(2)
-      @game = Game.new(@player, @same_player)
+      @game = Game.new(@player, @another_player)
       @game.play
     end
-    it "recognizes DeterministicPlayer(2) as the winner" do
-      expect(@game.winner).to be(@another_player)
-    end
-    it "ends the game" do
+    it "ends" do
       expect(@game.over?).to be true
+    end
+    it "recognizes DeterministicPlayer(1) as the winner" do
+      expect(@game.winner).to be(@player)
     end
   end
   # context "in a cat's game" do

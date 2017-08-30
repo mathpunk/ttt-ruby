@@ -37,7 +37,7 @@ class DeterministicPlayer < Player
       @strategy = [1, 9, 4, 7]
     elsif position == 2
       super("Deterministic P2", "O")
-      @strategy = [5, 2, 3, 8]
+      @strategy = [5, 2, 3]
     end
   end
 

@@ -23,7 +23,7 @@ class Display
       if occupant == :no_one
         sprites.push(blank_cell)
       else
-        sprites.push(marked_cell("X"))
+        sprites.push(marked_cell(occupant.mark))
       end
     end
     sprites

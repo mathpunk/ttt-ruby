@@ -1,3 +1,4 @@
+require "pry"
 require_relative "move"
 
 class Player
@@ -17,16 +18,19 @@ end
 class ConsolePlayer < Player
   def choose_move
     puts "Choose a square (1-9): "
-    response = gets
-    validate_move(response)
-    Move.new(response)
+    response = gets.chomp
+    spot = conform_move(response)
+    Move.new(spot)
   end
 
-  def validate_move(choice)
-    unless (1..9).include? choice
+  def conform_move(choice)
+    spot = choice.to_i
+    # binding.pry
+    unless (1..9).include? spot
       puts "#{choice} is not a valid move."
       choose_move
     end
+    spot
   end
 end
 

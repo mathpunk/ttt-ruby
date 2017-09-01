@@ -1,3 +1,4 @@
+require "pry"
 require "observer"
 require_relative "player"
 require_relative "board"
@@ -7,7 +8,7 @@ class Game
   attr_reader :board, :display
 
   # Starting, turn-taking, and ending.
-  def initialize(player1, player2)
+  def initialize(player1:, player2:)
     @board = Board.new
     @players = [player1, player2]
     @current_player = 0
@@ -52,6 +53,7 @@ class Game
   end
 
   def request_move(player)
+    # binding.pry
     move = player.choose_move
     if board.review_move(move) == :no_one
       move

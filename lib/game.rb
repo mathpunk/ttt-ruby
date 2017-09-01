@@ -91,8 +91,11 @@ class Game
 
   def end_game
     # display responsibility
-    puts "Game over"
-    puts winner.inspect + " wins"
+    if winner == :no_one
+      puts "It's a draw!"
+    else
+      puts "#{winner.name} wins!"
+    end
   end
 
   private

@@ -40,7 +40,7 @@ class Display
   end
 
   def board_representation
-    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|"]
+    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
     squares.zip(dividers).concat.flatten.join("")
   end
 

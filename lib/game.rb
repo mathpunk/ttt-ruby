@@ -40,14 +40,6 @@ class Game
     end
   end
 
-  def accept_move(player, move)
-    board.accept_move(player, move)
-  end
-
-  def review_move(move)
-    board.review_move(move)
-  end
-
   def request_move(player)
     move = player.choose_move
     if board.review_move(move) == :no_one

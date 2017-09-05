@@ -1,5 +1,4 @@
 require "game"
-require "move"
 require "player"
 
 describe Game do

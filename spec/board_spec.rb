@@ -1,9 +1,9 @@
 require "player"
 require "board"
-require "move"
 require "game"
 
 describe Board do
+
   context "rows, columns, and diagonals" do
     before(:each) do
       @player = DeterministicPlayer.new(1)
@@ -11,6 +11,7 @@ describe Board do
       @game = Game.new(player1: @player, player2: @another_player)
       @board = @game.board
     end
+
     context "emptiness" do
       it "rows begin empty" do
         expect(@board.row(0)).to be_empty
@@ -33,6 +34,7 @@ describe Board do
         expect(@board.neg_diagonal).to be_empty
       end
     end
+
     context "as a data structure for moves" do
       before(:each) do
         @player = DeterministicPlayer.new(1)
@@ -45,12 +47,11 @@ describe Board do
       it "remembers who moved to a square" do
         expect(@board.review_move(@player_first_move)).to eq(@player)
       end
-      # HYPOTHESIS: Fails b/c of incorrect DeterministicPlayer implementation
-      # it "remembers unoccupied squares" do
-      #   didnt_move = @another_player.peek
-      #   occupant = @game.review_move(didnt_move)
-      #   expect(occupant).to be(:no_one)
-      # end
+      it "remembers unoccupied squares" do
+        didnt_move = @another_player.peek
+        occupant = @board.review_move(didnt_move)
+        expect(occupant).to be(:no_one)
+      end
     end
   end
 end

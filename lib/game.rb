@@ -1,4 +1,3 @@
-require "pry"
 require "observer"
 require_relative "player"
 require_relative "board"
@@ -7,7 +6,6 @@ class Game
   include Observable
   attr_reader :board, :display
 
-  # Starting, turn-taking, and ending.
   def initialize(player1:, player2:)
     @board = Board.new
     @players = [player1, player2]
@@ -18,11 +16,10 @@ class Game
   end
 
   def play
-    unless over?
+    until over?
       play_round
-    else
-      end_game
     end
+    end_game
   end
 
   def play_round
@@ -30,7 +27,6 @@ class Game
     chosen_move = request_move(current_player)
     board.accept_move(current_player, chosen_move)
     @current_player = (@current_player + 1) % 2
-    play
   end
 
   def player(question)
@@ -53,7 +49,6 @@ class Game
   end
 
   def request_move(player)
-    # binding.pry
     move = player.choose_move
     if board.review_move(move) == :no_one
       move

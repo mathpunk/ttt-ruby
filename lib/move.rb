@@ -1,5 +1,6 @@
 class Move
   attr_reader :coordinates, :spot
+
   def initialize(arg1, arg2 = nil)
     if arg1.class == Array && !arg2
       @coordinates = arg1
@@ -14,12 +15,15 @@ class Move
       :invalid
     end
   end
+
   def row
     @coordinates[0]
   end
+
   def column
     @coordinates[1]
   end
+
   private
   def spot_to_coordinates
     { 1 => [0,0],
@@ -32,7 +36,9 @@ class Move
       8 => [2,1],
       9 => [2,2] }
   end
+
   def coordinates_to_spot
     spot_to_coordinates.invert
   end
+
 end

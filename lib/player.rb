@@ -1,4 +1,3 @@
-require "pry"
 require_relative "move"
 
 class Player
@@ -13,6 +12,7 @@ class Player
     spot = (1..9).to_a.sample
     Move.new(spot)
   end
+
 end
 
 class ConsolePlayer < Player
@@ -25,16 +25,17 @@ class ConsolePlayer < Player
 
   def conform_move(choice)
     spot = choice.to_i
-    # binding.pry
     unless (1..9).include? spot
       puts "#{choice} is not a valid move."
       choose_move
+    else
+      spot
     end
-    spot
   end
 end
 
 class DeterministicPlayer < Player
+
   def initialize(position)
     if position == 1
       super("Deterministic P1", "X")
@@ -53,4 +54,18 @@ class DeterministicPlayer < Player
   def peek
     Move.new(@strategy[0])
   end
+end
+
+class DrawingDeterministicPlayer < DeterministicPlayer
+
+  def initialize(position)
+    if position == 1
+      super(position)
+      @strategy = [1, 2, 7, 6, 9]
+    elsif position == 2
+      super(position)
+      @strategy = [5, 3, 4, 8]
+    end
+  end
+
 end

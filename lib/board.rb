@@ -60,5 +60,4 @@ class Board
     rows + columns + diagonals
   end
 
-  # TOO GAME-Y
 end

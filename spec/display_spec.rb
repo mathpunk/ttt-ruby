@@ -12,14 +12,14 @@ describe Display do
     @board = @game.board
     @display = @game.display
   end
-  it "streams to stdout" do
+  it "streams to stdout when sent an update" do
     expect{@display.update}.to output(/.*/).to_stdout
   end
-  it "streams to stdout when there's a move" do
+  it "streams to stdout when a round is played" do
     expect{@game.play_round}.to output(/.*/).to_stdout
   end
 
-  context "when beginning" do
+  context "when beginning a game" do
     it "prints to the console" do
       expect{Game.new(player1: @player1, player2: @player2)}.to output(/.*/).to_stdout
     end
@@ -29,7 +29,7 @@ describe Display do
     end
   end
 
-  context "when playing" do
+  context "during play" do
     it "places player one's mark correctly in its row" do
       expect{@game.play_round}.to output(/ X |   |   /).to_stdout
     end

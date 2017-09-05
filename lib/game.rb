@@ -80,8 +80,26 @@ class Game
     # display responsibility
     if winner == :no_one
       puts "It's a draw!"
+      # play_again
     else
       puts "#{winner.name} wins!"
+      # play_again
+    end
+  end
+
+  def play_again
+    puts "Play again? (y/n): "
+    response = gets.chomp
+    if response == "y" || response == "Y"
+      game = Game.new(player1: ConsolePlayer.new("A. Human", "X"),
+        player2: Player.new("Rando Calrissian", "O"))
+      game.play
+    elsif response == "n" || response == "N"
+      puts "Thanks for playing!"
+      nil
+    else
+      puts "I didn't understand that. "
+      play_again
     end
   end
 

@@ -61,13 +61,17 @@ describe Game do
       @game = Game.new(player1: @player, player2: @another_player)
       @game.play
     end
+
     it "ends" do
       expect(@game.over?).to be true
     end
+
     it "recognizes DeterministicPlayer(1) as the winner" do
       expect(@game.winner).to be(@player)
     end
+
   end
+
   context "in a cat's game" do
     before(:each) do
       @draw_player = DrawingDeterministicPlayer.new(1)
@@ -75,9 +79,11 @@ describe Game do
       @game = Game.new(player1: @draw_player, player2: @another_draw_player)
       @game.play
     end
+
     it "does not award victory to anyone" do
       expect(@game.winner).to eq(:no_one)
     end
+
     it "is over" do
       expect(@game.over?).to be true
     end

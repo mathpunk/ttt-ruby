@@ -33,16 +33,16 @@ describe Display do
     it "places player one's mark correctly in its row" do
       expect{@game.play_round}.to output(/ X |   |   /).to_stdout
     end
-    # it "places player two's mark correctly in its row" do
-    #   @game.play_round
-    #   expect{@game.play_round}.to output(/   | O |   /).to_stdout
-    # end
+    it "places player two's mark correctly in its row" do
+      @game.play_round
+      expect{@game.play_round}.to output(/   | O |   /).to_stdout
+    end
     it "places player one's mark correctly on the board" do
       expect{@game.play_round}.to output(/ X |   |   \n   |   |   \n   |   |   /).to_stdout
     end
-    # it "places player two's mark correctly on the board" do
-    #   @game.play_round
-    #   expect{@game.play_round}.to output(/ X |   |   \n   | O |   \n   |   |   /).to_stdout
-    # end
+    it "places player two's mark correctly on the board" do
+      @game.play_round
+      expect{@game.play_round}.to output(/ X |   |   \n   | O |   \n   |   |   /).to_stdout
+    end
   end
 end

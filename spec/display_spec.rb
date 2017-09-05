@@ -1,6 +1,5 @@
 require "display"
 require "tic_tac_toe"
-require "move"
 require "player"
 require "game"
 

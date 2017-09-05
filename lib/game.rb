@@ -10,7 +10,7 @@ class Game
     @board = Board.new
     @players = [player1, player2]
     @current_player = 0
-    @display = Display.new(self, @board)
+    @display = Display.display_observing(board: @board)
     changed
     notify_observers
   end

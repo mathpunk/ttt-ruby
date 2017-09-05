@@ -1,17 +1,16 @@
 class Display
-  # def self.display_observing(board:)
-  #   display = new(board)
-  #   board.add_observer(display)
-  #   display
-  # end
+  def self.display_observing(board:)
+    display = new(board)
+    board.add_observer(display)
+    display.update
+    display
+  end
 
   BLANK_CELL = "   "
   HORIZONTAL_DIVIDER = "\n---+---+---\n"
 
-  def initialize(game, board)
+  def initialize(board)
     @board = board
-    game.add_observer(self)
-    @board.add_observer(self)
   end
 
   def to_s

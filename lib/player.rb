@@ -8,11 +8,13 @@ class Player
     @mark = mark
   end
 
+end
+
+class RandomPlayer < Player
   def choose_move
     spot = (1..9).to_a.sample
     Move.new(spot)
   end
-
 end
 
 class ConsolePlayer < Player
@@ -35,7 +37,6 @@ class ConsolePlayer < Player
 end
 
 class DeterministicPlayer < Player
-
   def initialize(position)
     if position == 1
       super("Deterministic P1", "X")

@@ -1,25 +1,20 @@
 require "observer"
-require_relative "player"
 require_relative "board"
 
 class Game
   include Observable
-  attr_reader :board, :display
+  attr_reader :board
 
   def initialize(player1:, player2:)
     @board = Board.new
     @players = [player1, player2]
     @current_player = 0
-    @display = Display.display_observing(board: @board)
-    changed
-    notify_observers
   end
 
   def play
     until over?
       play_round
     end
-    end_game
   end
 
   def play_round
@@ -73,33 +68,6 @@ class Game
       else
         nil
       end
-    end
-  end
-
-  def end_game
-    # display responsibility
-    if winner == :no_one
-      puts "It's a draw!"
-      # play_again
-    else
-      puts "#{winner.name} wins!"
-      # play_again
-    end
-  end
-
-  def play_again
-    puts "Play again? (y/n): "
-    response = gets.chomp
-    if response == "y" || response == "Y"
-      game = Game.new(player1: ConsolePlayer.new("A. Human", "X"),
-        player2: Player.new("Rando Calrissian", "O"))
-      game.play
-    elsif response == "n" || response == "N"
-      puts "Thanks for playing!"
-      nil
-    else
-      puts "I didn't understand that. "
-      play_again
     end
   end
 

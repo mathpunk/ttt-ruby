@@ -1,5 +1,3 @@
-require "display"
-require "tic_tac_toe"
 require "player"
 require "game"
 
@@ -9,10 +7,6 @@ describe Display do
     @player2 = DeterministicPlayer.new(2)
     @game = Game.new(player1: @player1, player2: @player2)
     @board = @game.board
-    @display = @game.display
-  end
-  it "streams to stdout when sent an update" do
-    expect{@display.update}.to output(/.*/).to_stdout
   end
   it "streams to stdout when a round is played" do
     expect{@game.play_round}.to output(/.*/).to_stdout

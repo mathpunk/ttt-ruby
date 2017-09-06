@@ -19,9 +19,6 @@ describe Game do
       expect(@game.player(2)).to eq(@another_player)
     end
 
-    it "is player one's turn to go" do
-      expect(@game.player(:up)).to eq(@player)
-    end
   end
 
   context "turn-taking" do

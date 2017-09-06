@@ -7,17 +7,14 @@ class Board
 
   def initialize
     @moves = Array.new(9, :no_one)
+    Display.display_observing(board: self)
   end
 
   def accept_move(player, move)
     index = move.spot-1
-    if moves[index] == :no_one
-      changed
-      moves[index] = player
-      notify_observers
-    else
-      :square_occupied # TOO SMART
-    end
+    changed
+    moves[index] = player
+    notify_observers
   end
 
   def review_move(move)

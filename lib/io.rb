@@ -9,17 +9,22 @@ class ConsoleIO
   end
 end
 
-class TestIO
+class InsufficientTestAnswersError < StandardError
+end
 
-  attr_reader :messages
+class MockIO
+  attr_reader :messages, :answers
 
-  def initialize
+  def initialize(answers: ["n"])
+    @answers = answers
     @messages = []
   end
+
   def say(message)
-    @messages.push(message)
+    messages.push(message)
   end
   def ask
-    "n"
+    answer = answers.pop
+    answer ? answer : raise(InsufficientTestAnswersError)
   end
 end

@@ -5,9 +5,8 @@ class Interface
   def initialize(mode, io)
     case mode
     when :interactive
-      @player1 = ConsolePlayer.new("A. Human", "X")
-      @player2 = RandomPlayer.new("Rando Calrissian", "O")
       @io = io
+      gather_players
     when :test_win
       @player1 = DeterministicPlayer.new(1)
       @player2 = DeterministicPlayer.new(2)
@@ -16,6 +15,25 @@ class Interface
       @player1 = DrawingDeterministicPlayer.new(1)
       @player2 = DrawingDeterministicPlayer.new(2)
       @io = io
+    end
+  end
+
+  def gather_players
+    player1_message = "Enter name of player 1, or leave blank for a computer player: "
+    io.say(player1_message)
+    player1_name = io.ask
+    if player1_name.empty?
+      @player1 = RandomPlayer.new("Computer", "X")
+    else
+      @player1 = ConsolePlayer.new(player1_name, "X")
+    end
+    player2_message = "Enter name of player 2, or leave blank for a computer player: "
+    io.say(player2_message)
+    player2_name = io.ask
+    if player2_name.empty?
+      @player2 = RandomPlayer.new("Computer", "X")
+    else
+      @player2 = ConsolePlayer.new(player2_name, "X")
     end
   end
 
@@ -49,6 +67,15 @@ class Interface
       run_game
     else
       io.say "Thanks for playing!"
+    end
+  end
+
+  def player(question)
+    case question
+    when 1
+      @player1
+    when 2
+      @player2
     end
   end
 

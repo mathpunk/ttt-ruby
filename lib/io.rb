@@ -1,19 +1,25 @@
 class ConsoleIO
-  def self.say(message)
+  def say(message)
     puts message
   end
 
-  def self.ask
+  def ask
     response = gets.chomp
     response
   end
 end
 
 class TestIO
-  def self.say(message)
-    message
+
+  attr_reader :messages
+
+  def initialize
+    @messages = []
   end
-  def self.ask
+  def say(message)
+    @messages.push(message)
+  end
+  def ask
     "n"
   end
 end

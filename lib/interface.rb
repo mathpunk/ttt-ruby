@@ -4,7 +4,7 @@ require_relative "player"
 class Interface
   def initialize(mode, io)
     case mode
-    when :human_computer
+    when :interactive
       @player1 = ConsolePlayer.new("A. Human", "X")
       @player2 = RandomPlayer.new("Rando Calrissian", "O")
       @io = io

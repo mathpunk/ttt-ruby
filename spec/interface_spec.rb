@@ -2,38 +2,43 @@ require "io"
 require "interface"
 
 describe Interface do
+  before(:each) do
+    @io = TestIO.new
+  end
+  context "in interactive mode" do
+    context "choosing players" do
+      xit "asks for player 1's name" do
+      end
+      xit "asks for player 2's name" do
+      end
+      xit "assumes a computer if no name given" do
+      end
+      xit "...for either player" do
+      end
+    end
+  end
+
   context "when a game ends" do
     context "in a win" do
       it "announces the win and names the winner" do
-        @io = TestIO
         @interface = Interface.new(:test_win, @io)
-        expect(@io).to receive(:say).with("Deterministic P1 wins!")
-        allow(@io).to receive(:say).with("Play again? (y/n)")
-        allow(@io).to receive(:say).with("Thanks for playing!")
         @interface.run_game
+        expect(@io.messages).to include("Deterministic P1 wins!")
       end
     end
 
     context "in a cat's game" do
       it "announces the draw" do
-        @io = TestIO
         @interface = Interface.new(:test_draw, @io)
-        expect(@io).to receive(:say).with("It's a draw!")
-        allow(@io).to receive(:say).with("Play again? (y/n)")
-        allow(@io).to receive(:say).with("Thanks for playing!")
         @interface.run_game
+        expect(@io.messages).to include("It's a draw!")
       end
     end
 
     it "asks if you'd like to play again" do
-      @io = TestIO
       @interface = Interface.new(:test_draw, @io)
-      allow(@io).to receive(:say).with("Thanks for playing!")
-      allow(@io).to receive(:say).with("Deterministic P1 wins!")
-      allow(@io).to receive(:say).with("It's a draw!")
-      expect(@io).to receive(:say).with("Play again? (y/n)")
-      expect(@io).to receive(:ask)
       @interface.run_game
+      expect(@io.messages).to include("Play again? (y/n)")
     end
   end
 

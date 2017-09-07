@@ -19,11 +19,15 @@ class Interface
     end
   end
 
+  def run_game
+    start_game
+    announce_winner
+    play_again_shall_we
+  end
+
   def start_game
     @game = Game.new(player1: @player1, player2: @player2)
     game.play
-    announce_winner
-    play_again_shall_we
   end
 
   def announce_winner
@@ -40,9 +44,9 @@ class Interface
     response = io.ask
     case response
     when "y"
-      start_game
+      run_game
     when "Y"
-      start_game
+      run_game
     else
       io.say "Thanks for playing!"
     end

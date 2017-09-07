@@ -10,7 +10,7 @@ describe Interface do
         expect(@io).to receive(:say).with("Deterministic P1 wins!")
         allow(@io).to receive(:say).with("Play again? (y/n)")
         allow(@io).to receive(:say).with("Thanks for playing!")
-        @interface.start_game
+        @interface.run_game
       end
     end
 
@@ -21,7 +21,7 @@ describe Interface do
         expect(@io).to receive(:say).with("It's a draw!")
         allow(@io).to receive(:say).with("Play again? (y/n)")
         allow(@io).to receive(:say).with("Thanks for playing!")
-        @interface.start_game
+        @interface.run_game
       end
     end
 
@@ -33,7 +33,7 @@ describe Interface do
       allow(@io).to receive(:say).with("It's a draw!")
       expect(@io).to receive(:say).with("Play again? (y/n)")
       expect(@io).to receive(:ask)
-      @interface.start_game
+      @interface.run_game
     end
   end
 

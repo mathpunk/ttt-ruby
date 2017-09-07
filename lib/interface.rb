@@ -22,12 +22,20 @@ class Interface
   def start_game
     @game = Game.new(player1: @player1, player2: @player2)
     game.play
+    announce_winner
+    play_again_shall_we
+  end
+
+  def announce_winner
     winner = game.winner
     if winner == :no_one
       io.say "It's a draw!"
     else
       io.say "#{game.winner.name} wins!"
     end
+  end
+
+  def play_again_shall_we
     io.say "Play again? (y/n)"
     response = io.ask
     case response
@@ -39,6 +47,7 @@ class Interface
       io.say "Thanks for playing!"
     end
   end
+
 
   private
   attr_reader :io, :game

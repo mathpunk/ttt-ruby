@@ -42,13 +42,31 @@ describe Game do
     end
   end
 
-  context "when an occupied square is chosen by a player" do
-    before(:each) do
+  context "valid_move?" do
+    it "is false when a player tries to move to an occupied square" do
       @game = Game.new(player1: @player, player2: @same_player)
       @game.play_round
+      attempted_move = @same_player.peek
+      expect(@game.valid_move?(attempted_move)).to be_falsey
     end
-    it "tells the player square-stealing is forbidden" do
-      expect{@game.play_round}.to output(/That square is occupied. Choose another./).to_stdout
+    it "is true when a player tries to move to an unoccupied square" do
+      @game = Game.new(player1: @player, player2: @another_player)
+      @game.play_round
+      attempted_move = @another_player.peek
+      expect(@game.valid_move?(attempted_move)).to be_truthy
+    end
+
+    # SHOULD BE INTERFACE RESPONSIBILITY?
+    context "when an occupied square is chosen by a player" do
+      before(:each) do
+        @player = DeterministicPlayer.new(1)
+        @same_player = DeterministicPlayer.new(2)
+        @game = Game.new(player1: @player, player2: @same_player)
+        @game.play_round
+      end
+      xit "tells the player square-stealing is forbidden" do
+        expect{@game.play_round}.to output(/That square is taken. Choose another./).to_stdout
+      end
     end
   end
 

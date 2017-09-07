@@ -1,8 +1,6 @@
-require "observer"
 require_relative "board"
 
 class Game
-  include Observable
   attr_reader :board
 
   def initialize(player1:, player2:)
@@ -15,12 +13,17 @@ class Game
     until over?
       play_round
     end
-    end_game
   end
 
   def play_round
     current_player = player(:up)
-    chosen_move = request_move(current_player)
+    chosen_move = current_player.choose_move
+    if !valid_move?(chosen_move)
+      until valid_move?(chosen_move)
+        puts "That square is taken. Choose another."
+        chosen_move = current_player.choose_move
+      end
+    end
     board.accept_move(current_player, chosen_move)
     @current_player = (@current_player + 1) % 2
   end
@@ -36,18 +39,8 @@ class Game
     end
   end
 
-  def request_move(player)
-    move = player.choose_move
-    if board.review_move(move) == :no_one
-      move
-    else
-      reject_move(player)
-    end
-  end
-
-  def reject_move(player)
-    puts "That square is occupied. Choose another."
-    request_move(player)
+  def valid_move?(move)
+    board.review_move(move) == :no_one
   end
 
   def over?
@@ -58,16 +51,6 @@ class Game
     winner = board.lines.detect { |line| winner_of_line(line) }
     winner ? winner[0] : :no_one
   end
-
-  def end_game
-    # display responsibility
-    if winner == :no_one
-      puts "It's a draw!"
-    else
-      puts "#{winner.name} wins!"
-    end
-  end
-
 
   private
   def winner_of_line(line)

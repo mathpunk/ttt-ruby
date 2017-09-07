@@ -1,9 +1,5 @@
-require_relative "ceremony"
-require_relative "player"
+require_relative "interface"
+require_relative "io"
 
-game = Game.new(player1: ConsolePlayer.new("A. Human", "X"),
-                player2: RandomPlayer.new("Rando Calrissian", "O"))
-game.play
-
-# ceremony = DeterministicCeremony.new(ConsoleIO)
-# ceremony.start_ceremony
+interface = Interface.new(:human_computer, ConsoleIO)
+interface.start_game

@@ -2,6 +2,7 @@ require_relative "game"
 require_relative "io"
 
 class Ceremony
+
   attr_reader :game
 
   def initialize(io)
@@ -16,8 +17,6 @@ class Ceremony
   end
 
   def gather_players
-    # assume human v. computer
-
   end
 
   def start_game
@@ -39,15 +38,6 @@ class Ceremony
   #   start_ceremony
   #   gather_players
   #   start_game
-  # end
-
-  # def end_game
-  #   # display responsibility
-  #   if winner == :no_one
-  #     puts "It's a draw!"
-  #   else
-  #     puts "#{winner.name} wins!"
-  #   end
   # end
 
   # def play_again

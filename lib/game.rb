@@ -15,6 +15,7 @@ class Game
     until over?
       play_round
     end
+    end_game
   end
 
   def play_round
@@ -57,6 +58,16 @@ class Game
     winner = board.lines.detect { |line| winner_of_line(line) }
     winner ? winner[0] : :no_one
   end
+
+  def end_game
+    # display responsibility
+    if winner == :no_one
+      puts "It's a draw!"
+    else
+      puts "#{winner.name} wins!"
+    end
+  end
+
 
   private
   def winner_of_line(line)

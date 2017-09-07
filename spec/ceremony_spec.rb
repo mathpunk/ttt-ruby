@@ -8,7 +8,7 @@ describe Ceremony do
   end
 
   context "on start of ceremony" do
-    it "says a welcome message" do
+    xit "says a welcome message" do
       message = "Are you ready for some Tic... Tac... Toooooe!!?!!?!!?"
       expect(@mock_io).to receive(:say).and_return(message)
       @ceremony.start_ceremony
@@ -22,7 +22,7 @@ describe Ceremony do
 
   context "on beginning the game" do
 
-    it "makes an announcement" do
+    xit "makes an announcement" do
       allow(@mock_io).to receive(:say)
       @ceremony.gather_players
       message = "Let's begin!"
@@ -32,7 +32,7 @@ describe Ceremony do
   end
 
   context "in a game with a winner" do
-    it "announces the winner" do
+    xit "announces the winner" do
       allow(@mock_io).to receive(:say)
       @ceremony.gather_players
       expect(@mock_io).to receive(:say).and_return("Fish fingers and custard")

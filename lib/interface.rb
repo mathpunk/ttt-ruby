@@ -31,9 +31,9 @@ class Interface
     io.say(player2_message)
     player2_name = io.ask
     if player2_name.empty?
-      @player2 = RandomPlayer.new("Computer", "X")
+      @player2 = RandomPlayer.new("Computer", "O")
     else
-      @player2 = ConsolePlayer.new(player2_name, "X")
+      @player2 = ConsolePlayer.new(player2_name, "O")
     end
   end
 

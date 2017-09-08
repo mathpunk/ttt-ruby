@@ -24,7 +24,7 @@ class MockIO
     messages.push(message)
   end
   def ask
-    answer = answers.pop
+    answer = answers.shift
     answer ? answer : raise(InsufficientTestAnswersError)
   end
 end

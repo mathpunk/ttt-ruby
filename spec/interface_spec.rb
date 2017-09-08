@@ -27,42 +27,62 @@ describe Interface do
         it "sets player 1 to be a random player" do
           io = MockIO.new(answers: ["", ""])
           interface = Interface.new(:interactive, io)
-          expect(interface.player(1).class).to be RandomPlayer
+          expect(interface.player(1).class).to eq RandomPlayer
+        end
+        it "sets player 1 to have mark 'X'" do
+          io = MockIO.new(answers: ["", ""])
+          interface = Interface.new(:interactive, io)
+          expect(interface.player(1).mark).to eq"X"
         end
         it "sets player 2 to be a random player" do
           io = MockIO.new(answers: ["", ""])
           interface = Interface.new(:interactive, io)
-          expect(interface.player(2).class).to be RandomPlayer
+          expect(interface.player(2).class).to eq RandomPlayer
+        end
+        it "sets player 2 to have mark 'O'" do
+          io = MockIO.new(answers: ["", ""])
+          interface = Interface.new(:interactive, io)
+          expect(interface.player(2).mark).to eq"O"
         end
       end
 
       context "and given names" do
-
-        xit "sets player 1 to be a console player" do
-          io = MockIO.new(answers: ["Tom", ""])
+        it "sets player 1 to be a console player" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
           interface = Interface.new(:interactive, io)
-          expect(interface.player(1).class).to be ConsolePlayer
+          expect(interface.player(1).class).to eq ConsolePlayer
         end
 
-        xit "sets player 1's name" do
-          io = MockIO.new(answers: ["Tom", ""])
+        it "sets player 1's name" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
           interface = Interface.new(:interactive, io)
           expect(interface.player(1).name).to eq "Tom"
         end
 
-        xit "sets player 2 to be a console player" do
-          io = MockIO.new(answers: ["", "Tom"])
+        it "sets player 1's mark to 'X'" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
           interface = Interface.new(:interactive, io)
-          expect(interface.player(2).class).to be ConsolePlayer
+          expect(interface.player(1).mark).to eq "X"
         end
 
-        xit "sets player 2's name" do
-          io = MockIO.new(answers: ["", "Tom"])
+        it "sets player 2 to be a console player" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
           interface = Interface.new(:interactive, io)
-          expect(interface.player(2).name).to eq "Tom"
+          expect(interface.player(2).class).to eq ConsolePlayer
+        end
+
+        it "sets player 2's name" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
+          interface = Interface.new(:interactive, io)
+          expect(interface.player(2).name).to eq "Thomas"
+        end
+
+        it "sets player 2's mark to 'O'" do
+          io = MockIO.new(answers: ["Tom", "Thomas"])
+          interface = Interface.new(:interactive, io)
+          expect(interface.player(2).mark).to eq"O"
         end
       end
-
     end
   end
 

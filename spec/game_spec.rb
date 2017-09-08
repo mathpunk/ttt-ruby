@@ -102,4 +102,50 @@ describe Game do
       expect(@game.over?).to be true
     end
   end
+
+  context "fixing the invalid move bug" do
+    # Observed behavior:
+
+    # Choose a square (1-9):
+    # 0
+    # 0 is not a valid move.
+    # Choose a square (1-9):
+    # 9
+    # /home/chiral/work/iteration/ttt-ruby/lib/board.rb:21:in `review_move': undefined method `-' for #<Move:0x00557b6f82aa88 @spot=9> (NoMethodError)
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:43:in `valid_move?'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:22:in `play_round'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:14:in `play'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:48:in `start_game'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:41:in `run_game'
+    # from lib/main.rb:5:in `<main>'
+
+    # Interrogating further. Is it because of the zero, or because of the invalid move?
+
+    # Choose a square (1-9):
+    # q
+    # q is not a valid move.
+    # Choose a square (1-9):
+    # 5
+    # /home/chiral/work/iteration/ttt-ruby/lib/board.rb:21:in `review_move': undefined method `-' for #<Move:0x0056319194b2b8 @spot=5> (NoMethodError)
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:43:in `valid_move?'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:21:in `play_round'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:14:in `play'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:48:in `start_game'
+    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:41:in `run_game'
+    # from lib/main.rb:5:in `<main>'
+
+    it "can be reproduced in a test with a string" do
+      @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
+      @qa_player = DeterministicPlayer.new("Q.A. Player", "#", ["q", 5, 6, 7, 8])
+      game = Game.new(player1: @player, player2: @qa_player)
+      expect{game.play}.to raise_error NoMethodError
+    end
+
+    xit "can be reproduced in a test with an out-of-range int" do
+      @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
+      @qa_player = DeterministicPlayer.new("Q.A. Player", "#", [0, 5, 6, 7, 8])
+      game = Game.new(player1: @player, player2: @qa_player)
+      expect{game.play}.to raise_error NoMethodError # This fails, uh, to fail
+    end
+  end
 end

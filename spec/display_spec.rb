@@ -3,8 +3,8 @@ require "game"
 
 describe Display do
   before(:each) do
-    @player1 = DeterministicPlayer.new(1)
-    @player2 = DeterministicPlayer.new(2)
+    @player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
+    @player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
     @game = Game.new(player1: @player1, player2: @player2)
     @board = @game.board
   end

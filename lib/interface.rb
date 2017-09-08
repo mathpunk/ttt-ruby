@@ -8,12 +8,12 @@ class Interface
       @io = io
       gather_players
     when :test_win
-      @player1 = DeterministicPlayer.new(1)
-      @player2 = DeterministicPlayer.new(2)
+      @player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
+      @player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
       @io = io
     when :test_draw
-      @player1 = DrawingDeterministicPlayer.new(1)
-      @player2 = DrawingDeterministicPlayer.new(2)
+      @player1 = DeterministicPlayer.new("Deterministic P1", "X",[1, 2, 7, 6, 9])
+      @player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 3, 4, 8])
       @io = io
     end
   end

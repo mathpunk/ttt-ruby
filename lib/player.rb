@@ -37,14 +37,9 @@ class ConsolePlayer < Player
 end
 
 class DeterministicPlayer < Player
-  def initialize(position)
-    if position == 1
-      super("Deterministic P1", "X")
-      @strategy = [1, 9, 4, 7]
-    elsif position == 2
-      super("Deterministic P2", "O")
-      @strategy = [5, 2, 3]
-    end
+  def initialize(name, mark, strategy)
+    super(name, mark)
+    @strategy = strategy
   end
 
   def choose_move
@@ -55,18 +50,4 @@ class DeterministicPlayer < Player
   def peek
     Move.new(@strategy[0])
   end
-end
-
-class DrawingDeterministicPlayer < DeterministicPlayer
-
-  def initialize(position)
-    if position == 1
-      super(position)
-      @strategy = [1, 2, 7, 6, 9]
-    elsif position == 2
-      super(position)
-      @strategy = [5, 3, 4, 8]
-    end
-  end
-
 end

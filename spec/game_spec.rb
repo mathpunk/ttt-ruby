@@ -4,9 +4,9 @@ require "player"
 describe Game do
 
   before(:each) do
-    @player = DeterministicPlayer.new(1)
-    @same_player = DeterministicPlayer.new(1)
-    @another_player = DeterministicPlayer.new(2)
+    @player = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
+    @same_strategy_player = DeterministicPlayer.new("Deterministic P2", "X", [1, 9, 4, 7])
+    @another_player = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
   end
 
   context "when beginning" do
@@ -44,9 +44,9 @@ describe Game do
 
   context "valid_move?" do
     it "is false when a player tries to move to an occupied square" do
-      @game = Game.new(player1: @player, player2: @same_player)
+      @game = Game.new(player1: @player, player2: @same_strategy_player)
       @game.play_round
-      attempted_move = @same_player.peek
+      attempted_move = @same_strategy_player.peek
       expect(@game.valid_move?(attempted_move)).to be_falsey
     end
     it "is true when a player tries to move to an unoccupied square" do
@@ -61,7 +61,7 @@ describe Game do
       before(:each) do
         @player = DeterministicPlayer.new(1)
         @same_player = DeterministicPlayer.new(2)
-        @game = Game.new(player1: @player, player2: @same_player)
+        @game = Game.new(player1: @player, player2: @same_strategy_player)
         @game.play_round
       end
       xit "tells the player square-stealing is forbidden" do
@@ -88,8 +88,8 @@ describe Game do
 
   context "in a cat's game" do
     before(:each) do
-      @draw_player = DrawingDeterministicPlayer.new(1)
-      @another_draw_player = DrawingDeterministicPlayer.new(2)
+      @draw_player = DeterministicPlayer.new("Deterministic P1", "X",[1, 2, 7, 6, 9])
+      @another_draw_player = DeterministicPlayer.new("Deterministic P2", "O", [5, 3, 4, 8])
       @game = Game.new(player1: @draw_player, player2: @another_draw_player)
       @game.play
     end

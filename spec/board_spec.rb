@@ -6,8 +6,8 @@ describe Board do
 
   context "rows, columns, and diagonals" do
     before(:each) do
-      @player = DeterministicPlayer.new(1)
-      @another_player = DeterministicPlayer.new(2)
+      @player = DeterministicPlayer.new("Player1", "X", [])
+      @another_player = DeterministicPlayer.new("Player2", "O", [])
       @game = Game.new(player1: @player, player2: @another_player)
       @board = @game.board
     end
@@ -37,8 +37,8 @@ describe Board do
 
     context "as a data structure for moves" do
       before(:each) do
-        @player = DeterministicPlayer.new(1)
-        @another_player = DeterministicPlayer.new(2)
+        @player = DeterministicPlayer.new("Player 1", "X", [1])
+        @another_player = DeterministicPlayer.new("Player 2", "O", [2])
         @player_first_move = @player.peek
         @game = Game.new(player1: @player, player2: @another_player)
         @board = @game.board

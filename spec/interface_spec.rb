@@ -67,6 +67,7 @@ describe Interface do
   end
 
   context "when a game ends" do
+
     context "in a win" do
       it "announces the win and names the winner" do
         @interface = Interface.new(:test_win, @io)

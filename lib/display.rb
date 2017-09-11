@@ -3,7 +3,6 @@ class Display
     display = new(board)
     board.add_observer(display)
     display.update
-    display
   end
 
   BLANK_CELL = "   "
@@ -14,7 +13,8 @@ class Display
   end
 
   def to_s
-    board_representation
+    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
+    squares.zip(dividers).concat.flatten.join("")
   end
 
   def update
@@ -36,11 +36,6 @@ class Display
         marked_cell(occupant.mark)
       end
     end
-  end
-
-  def board_representation
-    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
-    squares.zip(dividers).concat.flatten.join("")
   end
 
 end

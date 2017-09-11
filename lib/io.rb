@@ -1,4 +1,4 @@
-# Note the duplication of query. I got surprising messages about initializing with the wrong number of arguments in main.rb when I tried to instead have this method in an IO superclass.
+# Note the duplication of `query`. I got surprising messages about initializing with the wrong number of arguments in main.rb when I tried a superclass with that method.
 
 # class IO
 #   def query(message)

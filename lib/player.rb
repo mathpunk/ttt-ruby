@@ -14,25 +14,34 @@ end
 class RandomPlayer < Player
   def choose_move
     spot = (1..9).to_a.sample
+    puts "#{self.name} chooses #{spot}."
     Move.new(spot)
   end
 end
 
 class ConsolePlayer < Player
   def choose_move
-    puts "Choose a square (1-9): "
+    puts "Choose a square, #{self.name} (1-9): "
     response = gets.chomp
     spot = conform_move(response)
     Move.new(spot)
   end
 
-  def conform_move(choice)
-    spot = choice.to_i
-    unless (1..9).include? spot
+  def conform_move(response)
+    if response.size == 0
+      puts "You must make a move."
+      choose_move
+    end
+    choice = response.to_i
+    if choice == 0
+      puts "#{response} is not a valid move."
+      choose_move
+    end
+    unless (1..9).include? choice
       puts "#{choice} is not a valid move."
       choose_move
     else
-      spot
+      choice
     end
   end
 end

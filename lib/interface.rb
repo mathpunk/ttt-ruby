@@ -21,6 +21,16 @@ class Interface
     end
   end
 
+  def create_player_interactively(position)
+    player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
+    player_mark = get_valid_player_mark(position)
+    if player_name.empty?
+      player = RandomPlayer.new("Computer", player_mark)
+    else
+      player = ConsolePlayer.new(player_name, player_mark)
+    end
+  end
+
   def get_valid_player_mark(position)
     default_mark = position == 1 ? "X" : "O"
     player_mark_response = io.query("Enter mark for player #{position}, or leave blank for '#{default_mark}': ")
@@ -32,16 +42,6 @@ class Interface
     else
       io.say("Marks must be a single character. Try again.")
       get_valid_player_mark(position)
-    end
-  end
-
-  def create_player_interactively(position)
-    player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
-    player_mark = get_valid_player_mark(position)
-    if player_name.empty?
-      player = RandomPlayer.new("Computer", player_mark)
-    else
-      player = ConsolePlayer.new(player_name, player_mark)
     end
   end
 

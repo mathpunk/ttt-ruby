@@ -32,8 +32,7 @@ class Board
 
   def column(n)
     indices = (0...9).select { |index| index % 3 == n}
-    entries = []
-    indices.each { |i| entries.push(moves[i]) }
+    entries = indices.collect { |index| moves[index] }
     entries.reject { |entry| entry == :no_one }
   end
 

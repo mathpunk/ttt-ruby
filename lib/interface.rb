@@ -1,5 +1,6 @@
 require_relative "game"
 require_relative "player"
+require "pry"
 
 class Interface
   def initialize(mode, io)
@@ -18,23 +19,31 @@ class Interface
     end
   end
 
+  def query_player(message)
+    io.say(message)
+    io.ask
+  end
+
   def gather_players
-    player1_message = "Enter name of player 1, or leave blank for a computer player: "
-    io.say(player1_message)
-    player1_name = io.ask
+    player1_name = query_player("Enter name of player 1, or leave blank for a computer player: ")
+    player1_mark_response = query_player("Enter mark for player 1, or leave blank for 'X': ")
+    player1_mark = player1_mark_response.empty? ? "X" : player1_mark_response
     if player1_name.empty?
-      @player1 = RandomPlayer.new("Computer", "X")
+      @player1 = RandomPlayer.new("Computer", player1_mark)
     else
-      @player1 = ConsolePlayer.new(player1_name, "X")
+      @player1 = ConsolePlayer.new(player1_name, player1_mark)
     end
-    player2_message = "Enter name of player 2, or leave blank for a computer player: "
-    io.say(player2_message)
-    player2_name = io.ask
+
+    player2_name = query_player("Enter name of player 2, or leave blank for a computer player: ")
+    player2_mark_response = query_player("Enter mark for player 2, or leave blank for 'O': ")
+    player2_mark = player2_mark_response.empty? ? "O" : player2_mark_response
+
     if player2_name.empty?
-      @player2 = RandomPlayer.new("Computer", "O")
+      @player2 = RandomPlayer.new("Computer", player2_mark)
     else
-      @player2 = ConsolePlayer.new(player2_name, "O")
+      @player2 = ConsolePlayer.new(player2_name, player2_mark)
     end
+
   end
 
   def run_game

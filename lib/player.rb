@@ -1,7 +1,8 @@
 require_relative "move"
 
 class Player
-  attr_reader :mark, :name
+  attr_reader  :name
+  attr_accessor :mark
 
   def initialize(name = "Anonymous", mark = "#")
     @name = name

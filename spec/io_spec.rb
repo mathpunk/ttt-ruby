@@ -1,7 +1,7 @@
 require "io"
 
 describe MockIO do
-  it "says what it says" do
+  it "'say' appends the message" do
     io = MockIO.new
     message = "Twas brillig, and the slithy toves"
     io.say(message)
@@ -20,7 +20,7 @@ describe MockIO do
     expect(answer).to eq "Three bags full, sir"
   end
 
-  it "raises an error when it is asked a question to which it cannot answer" do
+  it "raises an error when it is asked a question but has run out of answers" do
     io = MockIO.new(answers: ["Yes, sir", "No, sir", "Three bags full, sir"])
     3.times { |_| io.ask }
     expect{io.ask}.to raise_error InsufficientTestAnswersError

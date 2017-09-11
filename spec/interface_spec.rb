@@ -9,80 +9,94 @@ describe Interface do
   context "in interactive mode" do
 
     context "when choosing players" do
-
-      it "asks for player 1's name" do
-        io = MockIO.new(answers: ["", ""])
-        interface = Interface.new(:interactive, io)
-        message = "Enter name of player 1, or leave blank for a computer player: "
-        expect(io.messages).to include message
+      before(:each) do
+        @io = MockIO.new(answers: ["", "", "", ""])
+        @interface = Interface.new(:interactive, @io)
       end
+      it "asks for player 1's name" do
+        message = "Enter name of player 1, or leave blank for a computer player: "
+        expect(@io.messages).to include message
+      end
+
+      it "asks for player 1's mark" do
+        io = MockIO.new(answers: ["", "", "", ""])
+        message = "Enter mark for player 1, or leave blank for 'X': "
+        expect(@io.messages).to include message
+      end
+
       it "asks for player 2's name" do
-        io = MockIO.new(answers: ["", ""])
-        interface = Interface.new(:interactive, io)
+        io = MockIO.new(answers: ["", "", "", ""])
         message = "Enter name of player 2, or leave blank for a computer player: "
-        expect(io.messages).to include message
+        expect(@io.messages).to include message
       end
 
       context "and given no names" do
+        before(:each) do
+          @io = MockIO.new(answers: ["", "", "", ""])
+          @interface = Interface.new(:interactive, @io)
+        end
         it "sets player 1 to be a random player" do
-          io = MockIO.new(answers: ["", ""])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(1).class).to eq RandomPlayer
+          expect(@interface.player(1).class).to eq RandomPlayer
         end
-        it "sets player 1 to have mark 'X'" do
-          io = MockIO.new(answers: ["", ""])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(1).mark).to eq"X"
-        end
+
         it "sets player 2 to be a random player" do
-          io = MockIO.new(answers: ["", ""])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(2).class).to eq RandomPlayer
-        end
-        it "sets player 2 to have mark 'O'" do
-          io = MockIO.new(answers: ["", ""])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(2).mark).to eq"O"
+          expect(@interface.player(2).class).to eq RandomPlayer
         end
       end
 
       context "and given names" do
+        before(:each) do
+          @io = MockIO.new(answers: ["Tom", "", "Thomas", ""])
+          @interface = Interface.new(:interactive, @io)
+        end
+
         it "sets player 1 to be a console player" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(1).class).to eq ConsolePlayer
+          expect(@interface.player(1).class).to eq ConsolePlayer
         end
 
         it "sets player 1's name" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(1).name).to eq "Tom"
-        end
-
-        it "sets player 1's mark to 'X'" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(1).mark).to eq "X"
+          expect(@interface.player(1).name).to eq "Tom"
         end
 
         it "sets player 2 to be a console player" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(2).class).to eq ConsolePlayer
+          expect(@interface.player(2).class).to eq ConsolePlayer
         end
 
         it "sets player 2's name" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(2).name).to eq "Thomas"
+          expect(@interface.player(2).name).to eq "Thomas"
         end
 
-        it "sets player 2's mark to 'O'" do
-          io = MockIO.new(answers: ["Tom", "Thomas"])
-          interface = Interface.new(:interactive, io)
-          expect(interface.player(2).mark).to eq"O"
-        end
       end
+    end
+    context "and given no marks" do
+      before(:each) do
+        @io = MockIO.new(answers: ["Tom", "", "Thomas", ""])
+        @interface = Interface.new(:interactive, @io)
+      end
+
+      it "sets player 1's mark to 'X'" do
+        expect(@interface.player(1).mark).to eq "X"
+      end
+
+      it "sets player 2's mark to 'O'" do
+        expect(@interface.player(2).mark).to eq"O"
+      end
+    end
+
+    context "and given marks" do
+      before(:each) do
+        @io = MockIO.new(answers: ["Tom", "+", "Thomas", "0"])
+        @interface = Interface.new(:interactive, @io)
+      end
+
+      it "sets player 1's mark to the requested mark" do
+        expect(@interface.player(1).mark).to eq "+"
+      end
+
+      it "sets player 2's mark to the requested mark" do
+        expect(@interface.player(2).mark).to eq "0"
+      end
+
     end
   end
 

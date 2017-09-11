@@ -7,43 +7,42 @@ class Interface
     case mode
     when :interactive
       @io = io
-      gather_players
+      @players = [1, 2].collect { |position| create_player_interactively(position) }
     when :test_win
-      @player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
-      @player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
+      player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
+      player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
+      @players = [player1, player2]
       @io = io
     when :test_draw
-      @player1 = DeterministicPlayer.new("Deterministic P1", "X",[1, 2, 7, 6, 9])
-      @player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 3, 4, 8])
+      player1 = DeterministicPlayer.new("Deterministic P1", "X",[1, 2, 7, 6, 9])
+      player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 3, 4, 8])
+      @players = [player1, player2]
       @io = io
     end
   end
 
-  def query_player(message)
-    io.say(message)
-    io.ask
+  def get_valid_player_mark(position)
+    default_mark = position == 1 ? "X" : "O"
+    player_mark_response = io.query("Enter mark for player #{position}, or leave blank for '#{default_mark}': ")
+    case player_mark_response.size
+    when 0
+      default_mark
+    when 1
+      player_mark_response
+    else
+      io.say("Marks must be a single character. Try again.")
+      get_valid_player_mark(position)
+    end
   end
 
-  def gather_players
-    player1_name = query_player("Enter name of player 1, or leave blank for a computer player: ")
-    player1_mark_response = query_player("Enter mark for player 1, or leave blank for 'X': ")
-    player1_mark = player1_mark_response.empty? ? "X" : player1_mark_response
-    if player1_name.empty?
-      @player1 = RandomPlayer.new("Computer", player1_mark)
+  def create_player_interactively(position)
+    player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
+    player_mark = get_valid_player_mark(position)
+    if player_name.empty?
+      player = RandomPlayer.new("Computer", player_mark)
     else
-      @player1 = ConsolePlayer.new(player1_name, player1_mark)
+      player = ConsolePlayer.new(player_name, player_mark)
     end
-
-    player2_name = query_player("Enter name of player 2, or leave blank for a computer player: ")
-    player2_mark_response = query_player("Enter mark for player 2, or leave blank for 'O': ")
-    player2_mark = player2_mark_response.empty? ? "O" : player2_mark_response
-
-    if player2_name.empty?
-      @player2 = RandomPlayer.new("Computer", player2_mark)
-    else
-      @player2 = ConsolePlayer.new(player2_name, player2_mark)
-    end
-
   end
 
   def run_game
@@ -53,7 +52,7 @@ class Interface
   end
 
   def start_game
-    @game = Game.new(player1: @player1, player2: @player2)
+    @game = Game.new(player1: player(1), player2: player(2))
     game.play
   end
 
@@ -82,14 +81,13 @@ class Interface
   def player(question)
     case question
     when 1
-      @player1
+      players[0]
     when 2
-      @player2
+      players[1]
     end
   end
 
-
   private
-  attr_reader :io, :game
+  attr_reader :io, :game, :players
 
 end

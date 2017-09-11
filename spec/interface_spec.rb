@@ -83,7 +83,7 @@ describe Interface do
       end
     end
 
-    context "and given marks" do
+    context "and given single-character marks" do
       before(:each) do
         @io = MockIO.new(answers: ["Tom", "+", "Thomas", "0"])
         @interface = Interface.new(:interactive, @io)
@@ -96,7 +96,20 @@ describe Interface do
       it "sets player 2's mark to the requested mark" do
         expect(@interface.player(2).mark).to eq "0"
       end
+    end
 
+    context "and given multi-character marks" do
+      before(:each) do
+        @io = MockIO.new(answers: ["Tom", "XX", "", "Thomas", "0"])
+        @interface = Interface.new(:interactive, @io)
+      end
+      xit "explains marks must be one character long" do
+        message = "Marks cannot be more than one character. Try another one."
+        expect(@io.messages).to include message
+      end
+      it "keeps prodding the player until a valid mark is given" do
+        expect(@interface.player(1).mark.size).to eq(1)
+      end
     end
   end
 

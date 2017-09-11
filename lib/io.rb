@@ -1,4 +1,14 @@
-class ConsoleIO
+# Note the duplication of query. I got surprising messages about initializing with the wrong number of arguments in main.rb when I tried to instead have this method in an IO superclass.
+
+# class IO
+#   def query(message)
+#     say(message)
+#     ask
+#   end
+# end
+
+class ConsoleIO # < IO
+
   def say(message)
     puts message
   end
@@ -7,12 +17,17 @@ class ConsoleIO
     response = gets.chomp
     response
   end
+
+  def query(message)
+    say(message)
+    ask
+  end
 end
 
 class InsufficientTestAnswersError < StandardError
 end
 
-class MockIO
+class MockIO # < IO
   attr_reader :messages, :answers
 
   def initialize(answers: ["n"])
@@ -23,8 +38,14 @@ class MockIO
   def say(message)
     messages.push(message)
   end
+
   def ask
     answer = answers.shift
     answer ? answer : raise(InsufficientTestAnswersError)
+  end
+
+  def query(message)
+    say(message)
+    ask
   end
 end

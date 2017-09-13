@@ -16,11 +16,27 @@ class Minimax
     end
   end
 
-  def self.move_value(game, player, spot)
+  def self.move_value(game, player, move)
     imagined_game = game.clone
-    imagined_move = Move.new(spot)
-    imagined_game.board.accept_move(player, imagined_move)
+    imagined_game.board.accept_move(player, move)
     Minimax.value(imagined_game)
   end
 
+  def self.valid_moves(game)
+    moves = (1..9).collect { |n| Move.new(n) }
+    moves.select do |move|
+      game.valid_move?(move)
+    end
+  end
+
+  def self.maxima(game, player)
+    moves_to_check = valid_moves(game)
+    valuation = {}
+    moves_to_check.each do |move|
+      valuation[move] = Minimax.move_value(game, player, move)
+    end
+    moves_ranked = valuation.sort_by { |move, value| value }.reverse
+    moves_ranked
+  end
 end
+

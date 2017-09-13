@@ -32,14 +32,18 @@ describe Minimax do
   end
 
   context "maximizing" do
-    it "finds the value of a move" do
+    it "finds the value of a move that wins for P1" do
       player1 = DeterministicPlayer.new("P1", "X", [1, 2])
       player2 = DeterministicPlayer.new("P2", "O", [4, 5])
       game = Game.new(player1: player1, player2: player2)
-      value = Minimax.move_value(game, player1, 3)
+      game.play_round
+      game.play_round
+      game.play_round
+      game.play_round
+      value = Minimax.move_value(game, player1, Move.new(3))
       expect(value).to eq 1
     end
-    xit "returns a P1-winnable spot" do
+    it "finds a move that will win for P1" do
       player1 = DeterministicPlayer.new("P1", "X", [1, 2])
       player2 = DeterministicPlayer.new("P2", "O", [4, 5])
       game = Game.new(player1: player1, player2: player2)
@@ -47,10 +51,9 @@ describe Minimax do
       game.play_round
       game.play_round
       game.play_round
-      expect(Minimax.maxima(game, player1)).to eq [3] # or [Move.new(3)]?
+      maxima = Minimax.maxima(game, player1)
+      expect(maxima.any? {|pair| pair[0].spot == 3}).to be_truthy
     end
-
   end
-
 
 end

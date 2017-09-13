@@ -17,9 +17,10 @@ class Minimax
   end
 
   def self.move_value(game, player, move)
-    imagined_game = game.clone
-    imagined_game.board.accept_move(player, move)
-    Minimax.value(imagined_game)
+    game.board.accept_move(player, move)
+    value = Minimax.value(game)
+    game.board.undo_move(move)
+    value
   end
 
   def self.valid_moves(game)
@@ -35,8 +36,10 @@ class Minimax
     moves_to_check.each do |move|
       valuation[move] = Minimax.move_value(game, player, move)
     end
-    moves_ranked = valuation.sort_by { |move, value| value }.reverse
-    moves_ranked
+    moves_ranked = valuation.reject { |move, value| value == :undefined }.sort_by { |move, value| value }.reverse
+    best_value = moves_ranked[0][1]
+    best_valuations = moves_ranked.select { |pair| pair[1] == best_value }
+    best_valuations.collect { |pair| pair[0] }
   end
 end
 

@@ -32,28 +32,25 @@ describe Minimax do
   end
 
   context "maximizing" do
-    it "finds the value of a move that wins for P1" do
-      player1 = DeterministicPlayer.new("P1", "X", [1, 2])
-      player2 = DeterministicPlayer.new("P2", "O", [4, 5])
-      game = Game.new(player1: player1, player2: player2)
-      game.play_round
-      game.play_round
-      game.play_round
-      game.play_round
-      value = Minimax.move_value(game, player1, Move.new(3))
-      expect(value).to eq 1
-    end
-    it "finds a move that will win for P1" do
-      player1 = DeterministicPlayer.new("P1", "X", [1, 2])
-      player2 = DeterministicPlayer.new("P2", "O", [4, 5])
-      game = Game.new(player1: player1, player2: player2)
-      game.play_round
-      game.play_round
-      game.play_round
-      game.play_round
-      maxima = Minimax.maxima(game, player1)
-      expect(maxima.any? {|pair| pair[0].spot == 3}).to be_truthy
+    context "P1 to win" do
+      before(:each) do
+        @player1 = DeterministicPlayer.new("P1", "X", [1, 2])
+        @player2 = DeterministicPlayer.new("P2", "O", [4, 5])
+        @game = Game.new(player1: @player1, player2: @player2)
+        4.times { |_| @game.play_round }
+      end
+      it "finds the value of a move that wins for P1" do
+        value = Minimax.move_value(@game, @player1, Move.new(3))
+        expect(value).to eq 1
+      end
+      it "finds a move that will win for P1" do
+        maxima = Minimax.maxima(@game, @player1)
+        expect(maxima.any? { |move| move.spot == 3}).to be_truthy
+      end
+      it "ignores non-winning moves" do
+        maxima = Minimax.maxima(@game, @player1)
+        expect(maxima.size).to eq 1
+      end
     end
   end
-
 end

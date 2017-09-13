@@ -22,6 +22,11 @@ class Board
     moves[index]
   end
 
+  def undo_move(move)
+    index = move.spot-1
+    moves[index] = :no_one
+  end
+
   def row(n)
     moves[3*n,3].reject { |entry| entry == :no_one }
   end

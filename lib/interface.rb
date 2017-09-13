@@ -3,14 +3,20 @@ require_relative "player"
 require "pry"
 
 class Interface
+  attr_reader :game
   def initialize(mode, io)
     case mode
     when :interactive
       @io = io
       @players = [1, 2].collect { |position| create_player_interactively(position) }
-    when :test_win
+    when :test_win_player1
       player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
-      player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3])
+      player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3, 8])
+      @players = [player1, player2]
+      @io = io
+    when :test_win_player2
+      player1 = DeterministicPlayer.new("Deterministic P1", "X", [5, 2, 3, 6, 7])
+      player2 = DeterministicPlayer.new("Deterministic P2", "O", [1, 9, 4, 7])
       @players = [player1, player2]
       @io = io
     when :test_draw
@@ -88,6 +94,6 @@ class Interface
   end
 
   private
-  attr_reader :io, :game, :players
+  attr_reader :io,  :players
 
 end

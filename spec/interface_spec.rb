@@ -115,11 +115,23 @@ describe Interface do
 
   context "when a game ends" do
 
-    context "in a win" do
-      it "announces the win and names the winner" do
-        @interface = Interface.new(:test_win, @io)
+    context "in a player 1 win" do
+      it "announces the win and names player 1 as the winner the winner" do
+        @interface = Interface.new(:test_win_player1, @io)
         @interface.run_game
-        expect(@io.messages).to include("Deterministic P1 wins!")
+        winner = @interface.player(1)
+        announcement = "#{winner.name} wins!"
+        expect(@io.messages).to include(announcement)
+      end
+    end
+
+    context "in a player 2 win" do
+      it "announces the win and names player 2 as the winner the winner" do
+        @interface = Interface.new(:test_win_player2, @io)
+        @interface.run_game
+        winner = @interface.player(2)
+        announcement = "#{winner.name} wins!"
+        expect(@io.messages).to include(announcement)
       end
     end
 

@@ -41,5 +41,18 @@ class Minimax
     best_valuations = moves_ranked.select { |pair| pair[1] == best_value }
     best_valuations.collect { |pair| pair[0] }
   end
+
+  def self.minima(game, player)
+    moves_to_check = valid_moves(game)
+    valuation = {}
+    moves_to_check.each do |move|
+      valuation[move] = Minimax.move_value(game, player, move)
+    end
+    moves_ranked = valuation.reject { |move, value| value == :undefined }.sort_by { |move, value| value }
+    best_value = moves_ranked[0][1]
+    best_valuations = moves_ranked.select { |pair| pair[1] == best_value }
+    best_valuations.collect { |pair| pair[0] }
+  end
+
 end
 

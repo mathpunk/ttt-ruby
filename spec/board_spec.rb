@@ -42,7 +42,7 @@ describe Board do
         @player_first_move = @player.peek
         @game = Game.new(player1: @player, player2: @another_player)
         @board = @game.board
-        @game.play_round
+        @game.run_ply
       end
       it "remembers who moved to a square" do
         expect(@board.review_move(@player_first_move)).to eq(@player)

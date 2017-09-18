@@ -31,13 +31,13 @@ describe Game do
     end
 
     it "player two goes next" do
-      @game.play_round
+      @game.run_ply
       expect(@game.player(:up)). to eq(@another_player)
     end
 
     it "player one goes third" do
-      @game.play_round
-      @game.play_round
+      @game.run_ply
+      @game.run_ply
       expect(@game.player(:up)). to eq(@player)
     end
   end
@@ -45,13 +45,13 @@ describe Game do
   context "valid_move?" do
     it "is false when a player tries to move to an occupied square" do
       @game = Game.new(player1: @player, player2: @same_strategy_player)
-      @game.play_round
+      @game.run_ply
       attempted_move = @same_strategy_player.peek
       expect(@game.valid_move?(attempted_move)).to be_falsey
     end
     it "is true when a player tries to move to an unoccupied square" do
       @game = Game.new(player1: @player, player2: @another_player)
-      @game.play_round
+      @game.run_ply
       attempted_move = @another_player.peek
       expect(@game.valid_move?(attempted_move)).to be_truthy
     end
@@ -62,10 +62,10 @@ describe Game do
         @player = DeterministicPlayer.new(1)
         @same_player = DeterministicPlayer.new(2)
         @game = Game.new(player1: @player, player2: @same_strategy_player)
-        @game.play_round
+        @game.run_ply
       end
       xit "tells the player square-stealing is forbidden" do
-        expect{@game.play_round}.to output(/That square is taken. Choose another./).to_stdout
+        expect{@game.run_ply}.to output(/That square is taken. Choose another./).to_stdout
       end
     end
   end

@@ -1,6 +1,5 @@
 require_relative "game"
 require_relative "player"
-require "pry"
 
 class Interface
   attr_reader :game
@@ -31,7 +30,7 @@ class Interface
     player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
     player_mark = get_valid_player_mark(position)
     if player_name.empty?
-      player = RandomPlayer.new("Computer", player_mark)
+      player = RandomPlayer.new("Computer Player #{position}", player_mark)
     else
       player = ConsolePlayer.new(player_name, player_mark)
     end

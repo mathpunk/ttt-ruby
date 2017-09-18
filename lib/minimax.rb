@@ -30,28 +30,25 @@ class Minimax
     end
   end
 
-  def self.maxima(game, player)
-    moves_to_check = valid_moves(game)
-    valuation = {}
-    moves_to_check.each do |move|
-      valuation[move] = Minimax.move_value(game, player, move)
-    end
-    moves_ranked = valuation.reject { |move, value| value == :undefined }.sort_by { |move, value| value }.reverse
-    best_value = moves_ranked[0][1]
-    best_valuations = moves_ranked.select { |pair| pair[1] == best_value }
-    best_valuations.collect { |pair| pair[0] }
-  end
-
-  def self.minima(game, player)
+  def self.extrema(which, game, player)
     moves_to_check = valid_moves(game)
     valuation = {}
     moves_to_check.each do |move|
       valuation[move] = Minimax.move_value(game, player, move)
     end
     moves_ranked = valuation.reject { |move, value| value == :undefined }.sort_by { |move, value| value }
+    moves_ranked = moves_ranked.reverse if which == :minima
     best_value = moves_ranked[0][1]
     best_valuations = moves_ranked.select { |pair| pair[1] == best_value }
     best_valuations.collect { |pair| pair[0] }
+  end
+
+  def self.maxima(game, player)
+    self.extrema(:maxima, game, player)
+  end
+
+  def self.minima(game, player)
+    self.extrema(:minima, game, player)
   end
 
 end

@@ -11,11 +11,11 @@ class Game
 
   def play
     until over?
-      play_round
+      run_ply
     end
   end
 
-  def play_round
+  def run_ply
     current_player = player(:up)
     chosen_move = current_player.choose_move
     if !valid_move?(chosen_move)

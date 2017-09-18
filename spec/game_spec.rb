@@ -27,18 +27,18 @@ describe Game do
     end
 
     it "begins with player one" do
-      expect(@game.player(:up)). to eq(@player)
+      expect(@game.player(:current)). to eq(@player)
     end
 
     it "player two goes next" do
       @game.run_ply
-      expect(@game.player(:up)). to eq(@another_player)
+      expect(@game.player(:current)). to eq(@another_player)
     end
 
     it "player one goes third" do
       @game.run_ply
       @game.run_ply
-      expect(@game.player(:up)). to eq(@player)
+      expect(@game.player(:current)). to eq(@player)
     end
   end
 

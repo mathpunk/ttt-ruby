@@ -16,7 +16,7 @@ class Game
   end
 
   def run_ply
-    current_player = player(:up)
+    current_player = player(:current)
     chosen_move = current_player.choose_move
     if !valid_move?(chosen_move)
       until valid_move?(chosen_move)
@@ -34,7 +34,7 @@ class Game
       players[0]
     when 2
       players[1]
-    when :up
+    when :current
       players[current_player]
     end
   end

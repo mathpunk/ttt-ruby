@@ -47,7 +47,7 @@ class ConsolePlayer < Player
 end
 
 class DeterministicPlayer < Player
-  def initialize(name, mark, strategy)
+  def initialize(name = "Determinist", mark = "#", strategy)
     super(name, mark)
     @strategy = strategy
   end
@@ -61,3 +61,4 @@ class DeterministicPlayer < Player
     Move.new(@strategy[0])
   end
 end
+

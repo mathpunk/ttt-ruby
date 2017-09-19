@@ -15,17 +15,31 @@ class Game
     end
   end
 
+  def advance_turn
+    @current_player = (@current_player + 1) % 2
+  end
+
   def run_ply
     current_player = player(:current)
     chosen_move = current_player.choose_move
-    if !valid_move?(chosen_move)
-      until valid_move?(chosen_move)
-        puts "That square is taken. Choose another."
-        chosen_move = current_player.choose_move
-      end
+    until valid_move?(chosen_move)
+      puts "That square is taken. Choose another."
+      chosen_move = current_player.choose_move
     end
     board.accept_move(current_player, chosen_move)
-    @current_player = (@current_player + 1) % 2
+    advance_turn
+  end
+
+  def imagine_ply(move)
+    current_player = player(:current)
+    board.accept_move(current_player, move)
+    advance_turn
+  end
+
+  def unimagine_ply(move)
+    current_player = player(:current)
+    advance_turn
+    board.undo_move(move)
   end
 
   def player(question)

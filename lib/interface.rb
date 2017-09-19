@@ -50,6 +50,17 @@ class Interface
     end
   end
 
+  def run_ply
+    current_player = player(:current)
+    chosen_move = current_player.choose_move
+    until valid_move?(chosen_move)
+      puts "That square is taken. Choose another."
+      chosen_move = current_player.choose_move
+    end
+    board.accept_move(current_player, chosen_move)
+    @current_player = (@current_player + 1) % 2
+  end
+
   def run_game
     start_game
     announce_winner

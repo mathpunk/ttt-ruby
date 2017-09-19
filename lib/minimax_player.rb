@@ -12,9 +12,10 @@ class MinimaxPlayer < Player
   def game_value(game)
     maximizer = game.player(1)
     minimizer = game.player(2)
-    if !game.over?
-      :undefined
-    elsif game.winner == maximizer
+    # if !game.over?
+    #   :undefined
+    # elsif game.winner == maximizer
+    if game.winner == maximizer
       1
     elsif game.winner == minimizer
       -1

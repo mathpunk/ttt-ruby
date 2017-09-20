@@ -1,0 +1,34 @@
+#+TITLE: Tic-Tac-Toe in Ruby
+
+- command-line interface
+- human vs. human, human vs. computer, computer vs. computer
+- custom marks, if desired
+- computer strategy: random play
+- computer strategy: minimax play (**in progress**)
+
+ 
+** Prerequisites
+   - Ruby 2.4
+   - the `bundler` gem somewhere that your path can see it
+
+** Installing
+
+   #+BEGIN_SRC sh
+   git clone https://github.com/mathpunk/ttt-ruby
+   cd ttt-ruby
+   bundle install --path .bundle
+   #+END_SRC
+   
+** Running the tests
+   
+   #+BEGIN_SRC sh
+   bundle exec rspec
+   #+END_SRC
+   
+** Playing Tic-Tac-Toe
+   
+   #+BEGIN_SRC sh
+   ruby lib/main.rb
+   #+END_SRC
+   
+   ...and follow the directions.

@@ -59,7 +59,7 @@ describe MinimaxPlayer do
           expect(@minimax_player.spot_value(@game, 9)).to eq 1
         end
 
-        it "is -1 for a blunder" do
+        xit "is -1 for a blunder" do
           4.times { |_| @game.run_ply }
           expect(@minimax_player.spot_value(@game, 8)).to eq(-1)
         end
@@ -102,11 +102,63 @@ describe MinimaxPlayer do
       end
 
       context "when it's P2's turn to act" do
-        it "is 0" do
+        xit "is 0" do
           7.times { |_| @game.run_ply }
           expect(@minimax_player.spot_value(@game, 7)).to eq 0
           expect(@minimax_player.spot_value(@game, 8)).to eq 0
           expect(@minimax_player.spot_value(@game, 9)).to eq 0
+        end
+      end
+    end
+
+    context "smaller response/value functions: " do
+
+      context "when both players have two in a row" do
+        before(:each) do
+          player1 = DeterministicPlayer.new([1, 5, 8])
+          player2 = DeterministicPlayer.new([3, 6])
+          @max_player = MinimaxPlayer.new(:maximize)
+          @min_player = MinimaxPlayer.new(:minimize)
+          @game = Game.new(player1: player1, player2: player2)
+          @winning_move = Move.new(9)
+        end
+
+        context "and it's P1's turn to act" do
+          xit "the best move is to play to win" do
+            4.times { |_| @game.run_ply }
+            expect(@max_player.best_move(@game).spot).to eq @winning_move.spot
+          end
+        end
+
+        context "and it's P2's turn to act" do
+          xit "the best move is to play to win" do
+            5.times { |_| @game.run_ply }
+            expect(@min_player.best_move(@game).spot).to eq @winning_move.spot
+          end
+        end
+      end
+    end
+
+    context "in a cat's game" do
+      before(:each) do
+        player1 = DeterministicPlayer.new([1, 2, 6, 7, 9])
+        player2 = DeterministicPlayer.new([5, 3, 4, 8])
+        @max_player = MinimaxPlayer.new(:maximize)
+        @min_player = MinimaxPlayer.new(:minimize)
+        @game = Game.new(player1: player1, player2: player2)
+      end
+
+      context "when it's P1's turn to act" do
+        it "will accept a tie" do
+          6.times { |_| @game.run_ply }
+          expect(@max_player.best_move(@game).spot).to eq(7).or eq(8).or eq(9)
+        end
+      end
+
+      context "when it's P2's turn to act" do
+        it "will accept a tie" do
+          7.times { |_| @game.run_ply }
+          expect(@max_player.best_move(@game).spot).to eq(8).or eq(9)
         end
       end
 

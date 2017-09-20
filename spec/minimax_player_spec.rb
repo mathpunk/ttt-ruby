@@ -111,7 +111,7 @@ describe MinimaxPlayer do
       end
     end
 
-    context "smaller response/value functions: " do
+    context ":: best_move approach: " do
 
       context "when both players have two in a row" do
         before(:each) do

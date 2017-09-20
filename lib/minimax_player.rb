@@ -15,38 +15,6 @@ class MinimaxPlayer < Player
     end
   end
 
-  def best_move(game)
-    if preference == :maximize
-      opposite_preference = :minimize
-      favorite_value = 1
-    else
-      opposite_preference = :maximize
-      favorite_value = -1
-    end
-    spot_values = depth_one_spot_values(game)
-    best_spot_value_pair = spot_values.sort_by { |spot, value| value }[0]
-    best_spot = best_spot_value_pair[0]
-    Move.new(best_spot)
-    # victory = spot_values.find { |spot, value| value == favorite_value }
-    # if victory
-    #   Move.new(victory[0])
-    # else
-
-    # end
-  end
-
-  def depth_one_spot_values(game)
-    evaluation = available_spots(game).reduce({}) do |valuations, spot|
-      move = Move.new(spot)
-      game.imagine_ply(move)
-      value = game_value(game)
-      game.unimagine_ply(move)
-      valuations[spot] = value
-      valuations
-    end
-    evaluation
-  end
-
   def game_value(game)
     maximizer = game.player(1)
     minimizer = game.player(2)
@@ -61,27 +29,32 @@ class MinimaxPlayer < Player
     end
   end
 
-  def current_player_preference(game)
-    game.player(:current) == game.player(1) ? :maximize : :minimize
-  end
-
   def spot_value(game, spot)
     move = Move.new(spot)
     game.imagine_ply(move)
-    if game.over?
-      value = self.game_value(game)
-      game.unimagine_ply(move)
-      value
-    else
-      search_space = available_spots(game)
-      evaluation = {}
-      search_space.collect do | spot |
-        evaluation[spot] = spot_value(game, spot)
-      end
-      their_ranking_method = current_player_preference(game) == :maximize ? :reverse : :itself
-      their_ranked_pairs = evaluation.sort_by { |pair| pair[1] }.send(their_ranking_method)
-      their_ranked_pairs.first[1]
+    value = game_value(game)
+    if value == :undefined
+      opposite_preference = preference == :maximize ? :minimize : :maximize
+      imagined_player = MinimaxPlayer.new(opposite_preference)
+      what_theyll_play = Move.new(imagined_player.favorite_spot(game))
+      game.imagine_ply(what_theyll_play)
+      value = game_value(game)
+      game.unimagine_ply(what_theyll_play)
     end
+    game.unimagine_ply(move)
+    value
+  end
+
+  def favorite_spot(game)
+    sort_method = preference == :minimize ? :itself : :reverse
+    spots = available_spots(game)
+    spot_value_pairs = spots.reduce({}) do |valuations, spot|
+      valuations[spot] = spot_value(game, spot)
+      valuations
+    end
+    ranked_spot_value_pairs = spot_value_pairs.sort_by { |spot, value| value }.send(sort_method)
+    best_pair = ranked_spot_value_pairs.first
+    best_pair[0]
   end
 
 end

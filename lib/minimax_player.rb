@@ -28,28 +28,26 @@ class Minimax
   end
 
   def self.spot_value(game, spot, preference)
+    value = nil
     Minimax.what_if(game, spot) do
-      @value = Minimax.game_value(game)
-      if @value == :undefined
-        opposite_preference = preference == :maximize ? :minimize : :maximize
-        imagined_player = MinimaxPlayer.new(opposite_preference)
-        what_theyll_play = imagined_player.best_response(game)
-        @value = spot_value(game, what_theyll_play, opposite_preference)
+      value = Minimax.game_value(game)
+      if value == :undefined
+        opponent_preference = preference == :maximize ? :minimize : :maximize
+        opponent_response = Minimax.best_response(game, opponent_preference)
+        value = spot_value(game, opponent_response, opponent_preference)
       end
     end
-    @value
+    value
   end
 
   def self.best_response(game, preference)
     sort_method = preference == :minimize ? :itself : :reverse
-    spots = game.available_spots
-    spot_value_pairs = spots.reduce({}) do |valuations, spot|
+    spot_value_pairs = game.available_spots.reduce({}) do |valuations, spot|
       valuations[spot] = spot_value(game, spot, preference)
       valuations
     end
     ranked_spot_value_pairs = spot_value_pairs.sort_by { |spot, value| value }.send(sort_method)
-    best_pair = ranked_spot_value_pairs.first
-    best_pair[0]
+    ranked_spot_value_pairs.first[0]
   end
 
 end

@@ -5,37 +5,15 @@ class Display
     display.update
   end
 
-  BLANK_CELL = "   "
-  HORIZONTAL_DIVIDER = "\n---+---+---\n"
-
   def initialize(board)
     @board = board
   end
 
-  def to_s
-    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
-    squares.zip(dividers).concat.flatten.join("")
-  end
-
   def update
-    puts to_s
+    puts board.to_s
   end
 
   private
   attr_reader :board
-
-  def marked_cell(mark)
-    " " + mark + " "
-  end
-
-  def squares
-    board.moves.map do |occupant|
-      if occupant == :no_one
-        BLANK_CELL
-      else
-        marked_cell(occupant.mark)
-      end
-    end
-  end
 
 end

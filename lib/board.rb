@@ -62,3 +62,30 @@ class Board
   end
 
 end
+
+class ConsoleBoard < Board
+
+  def to_s
+    dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
+    squares.zip(dividers).concat.flatten.join("")
+  end
+
+  private
+
+  BLANK_CELL = "   "
+  HORIZONTAL_DIVIDER = "\n---+---+---\n"
+
+  def marked_cell(mark)
+    " " + mark + " "
+  end
+
+  def squares
+    moves.map do |occupant|
+      if occupant == :no_one
+        BLANK_CELL
+      else
+        marked_cell(occupant.mark)
+      end
+    end
+  end
+end

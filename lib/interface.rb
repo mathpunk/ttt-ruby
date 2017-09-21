@@ -9,7 +9,9 @@ class Interface
     when :interactive
       @io = io
       # @players = [1, 2].collect { |position| create_human_or_random_player_interactively(position) }
-      @players = [1, 2].collect { |position| create_human_or_minimax_player_interactively(position) }
+      @players = [1, 2].collect do |position|
+        create_human_or_minimax_player_interactively(position)
+      end
     when :test_win_player1
       player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
       player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3, 8])

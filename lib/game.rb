@@ -4,7 +4,7 @@ class Game
   attr_reader :board
 
   def initialize(player1:, player2:)
-    @board = Board.new
+    @board = ConsoleBoard.new
     @players = [player1, player2]
     @players.each { |player| player.observe_game(self) }
     @current_player = 0

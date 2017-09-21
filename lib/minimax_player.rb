@@ -50,14 +50,14 @@ class MinimaxPlayer < Player
       if @value == :undefined
         opposite_preference = preference == :maximize ? :minimize : :maximize
         imagined_player = MinimaxPlayer.new(opposite_preference)
-        what_theyll_play = imagined_player.favorite_spot(game)
+        what_theyll_play = imagined_player.best_response(game)
         @value = spot_value(game, what_theyll_play)
       end
     end
     @value
   end
 
-  def favorite_spot(game)
+  def best_response(game)
     sort_method = preference == :minimize ? :itself : :reverse
     spots = available_spots(game)
     spot_value_pairs = spots.reduce({}) do |valuations, spot|
@@ -70,7 +70,7 @@ class MinimaxPlayer < Player
   end
 
   def choose_move
-    spot = favorite_spot(game)
+    spot = best_response(game)
     puts "#{self.name} plays at @#{spot}"
     Move.new(spot)
   end

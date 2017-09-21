@@ -6,6 +6,7 @@ class Game
   def initialize(player1:, player2:)
     @board = Board.new
     @players = [player1, player2]
+    @players.each { |player| player.observe_game(self) }
     @current_player = 0
   end
 

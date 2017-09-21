@@ -1,5 +1,6 @@
 require_relative "game"
 require_relative "player"
+require_relative "minimax_player"
 
 class Interface
   attr_reader :game
@@ -7,7 +8,8 @@ class Interface
     case mode
     when :interactive
       @io = io
-      @players = [1, 2].collect { |position| create_player_interactively(position) }
+      # @players = [1, 2].collect { |position| create_human_or_random_player_interactively(position) }
+      @players = [1, 2].collect { |position| create_human_or_minimax_player_interactively(position) }
     when :test_win_player1
       player1 = DeterministicPlayer.new("Deterministic P1", "X", [1, 9, 4, 7])
       player2 = DeterministicPlayer.new("Deterministic P2", "O", [5, 2, 3, 8])
@@ -26,11 +28,22 @@ class Interface
     end
   end
 
-  def create_player_interactively(position)
+  def create_human_or_random_player_interactively(position)
     player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
     player_mark = get_valid_player_mark(position)
     if player_name.empty?
       player = RandomPlayer.new("Computer Player #{position}", player_mark)
+    else
+      player = ConsolePlayer.new(player_name, player_mark)
+    end
+  end
+
+  def create_human_or_minimax_player_interactively(position)
+    player_name = io.query("Enter name of player #{position}, or leave blank for a computer player: ")
+    player_mark = get_valid_player_mark(position)
+    if player_name.empty?
+      preference = position == 1 ? :maximize : :minimize
+      player = MinimaxPlayer.new("Computer Player #{position}", player_mark, preference)
     else
       player = ConsolePlayer.new(player_name, player_mark)
     end

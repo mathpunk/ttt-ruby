@@ -1,11 +1,15 @@
-require "player"
+require_relative "player"
 
 class MinimaxPlayer < Player
 
-  attr_reader :preference
+  attr_reader :preference, :game
 
-  def initialize(preference)
+  def initialize(name = "Anonymous", mark = "#", preference)
     @preference = preference
+  end
+
+  def observe_game(game)
+    @game = game
   end
 
   def available_spots(game)
@@ -65,4 +69,8 @@ class MinimaxPlayer < Player
     best_pair[0]
   end
 
+  def choose_move
+    spot = favorite_spot(game)
+    Move.new(spot)
+  end
 end

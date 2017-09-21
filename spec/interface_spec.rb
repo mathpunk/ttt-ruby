@@ -19,13 +19,11 @@ describe Interface do
       end
 
       it "asks for player 1's mark" do
-        io = MockIO.new(answers: ["", "", "", ""])
         message = "Enter mark for player 1, or leave blank for 'X': "
         expect(@io.messages).to include message
       end
 
       it "asks for player 2's name" do
-        io = MockIO.new(answers: ["", "", "", ""])
         message = "Enter name of player 2, or leave blank for a computer player: "
         expect(@io.messages).to include message
       end
@@ -35,12 +33,24 @@ describe Interface do
           @io = MockIO.new(answers: ["", "", "", ""])
           @interface = Interface.new(:interactive, @io)
         end
-        it "sets player 1 to be a random player" do
+        xit "sets player 1 to be a random player" do
           expect(@interface.player(1).class).to eq RandomPlayer
         end
 
-        it "sets player 2 to be a random player" do
+        it "sets player 1 to be a maximizing player" do
+          player = @interface.player(1)
+          expect(player.class).to eq MinimaxPlayer
+          expect(player.preference).to eq :maximize
+        end
+
+        xit "sets player 2 to be a random player" do
           expect(@interface.player(2).class).to eq RandomPlayer
+        end
+
+        it "sets player 2 to be a minimizing player" do
+          player = @interface.player(2)
+          expect(player.class).to eq MinimaxPlayer
+          expect(player.preference).to eq :minimize
         end
       end
 

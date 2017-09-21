@@ -9,6 +9,9 @@ class Player
     @mark = mark
   end
 
+  def observe_game(game)
+  end
+
 end
 
 class RandomPlayer < Player

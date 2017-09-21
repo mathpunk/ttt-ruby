@@ -7,7 +7,6 @@ class Board
 
   def initialize
     @moves = Array.new(9, :no_one)
-    Display.display_observing(board: self)
   end
 
   def accept_move(player, move)
@@ -64,6 +63,12 @@ class Board
 end
 
 class ConsoleBoard < Board
+  include Observable
+
+  def initialize
+    super()
+    Display.display_observing(board: self)
+  end
 
   def to_s
     dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]

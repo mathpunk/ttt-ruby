@@ -60,8 +60,9 @@ class MinimaxPlayer < Player
     @preference = preference
   end
 
-  def observe_game(game)
+  def join_game(game)
     @game = game
+    @preference = game.player1 == self ? :maximize : :minimize
   end
 
   def spot_value(game, spot)
@@ -74,7 +75,7 @@ class MinimaxPlayer < Player
 
   def choose_move
     spot = best_response(game)
-    puts "#{self.name} plays at @#{spot}"
+    puts "#{self.name} plays at #{spot}"
     Move.new(spot)
   end
 end

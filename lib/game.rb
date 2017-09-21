@@ -6,8 +6,12 @@ class Game
   def initialize(player1:, player2:)
     @board = ConsoleBoard.new
     @players = [player1, player2]
-    @players.each { |player| player.observe_game(self) }
+    @players.each { |player| player.join_game(self) }
     @current_player = 0
+  end
+
+  def set_board(board)
+    @board = board
   end
 
   def available_spots

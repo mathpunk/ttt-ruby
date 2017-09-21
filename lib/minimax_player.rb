@@ -29,20 +29,28 @@ class MinimaxPlayer < Player
     end
   end
 
-  def spot_value(game, spot)
+  def subjunctive_result(game, spot)
     move = Move.new(spot)
-    game.imagine_ply(move)
-    value = game_value(game)
-    if value == :undefined
-      opposite_preference = preference == :maximize ? :minimize : :maximize
-      imagined_player = MinimaxPlayer.new(opposite_preference)
-      what_theyll_play = Move.new(imagined_player.favorite_spot(game))
-      game.imagine_ply(what_theyll_play)
-      value = game_value(game)
-      game.unimagine_ply(what_theyll_play)
+    current_player = game.player(:current)
+    game.board.accept_move(current_player, move)
+    game.advance_turn
+    outcome = yield
+    game.advance_turn
+    game.board.undo_move(move)
+    outcome
+  end
+
+  def spot_value(game, spot)
+    subjunctive_result(game, spot) do
+      @value = game_value(game)
+      if @value == :undefined
+        opposite_preference = preference == :maximize ? :minimize : :maximize
+        imagined_player = MinimaxPlayer.new(opposite_preference)
+        what_theyll_play = imagined_player.favorite_spot(game)
+        @value = spot_value(game, what_theyll_play)
+      end
     end
-    game.unimagine_ply(move)
-    value
+    @value
   end
 
   def favorite_spot(game)

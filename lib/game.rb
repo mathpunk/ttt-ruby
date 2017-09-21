@@ -30,18 +30,6 @@ class Game
     advance_turn
   end
 
-  def imagine_ply(move)
-    current_player = player(:current)
-    board.accept_move(current_player, move)
-    advance_turn
-  end
-
-  def unimagine_ply(move)
-    current_player = player(:current)
-    advance_turn
-    board.undo_move(move)
-  end
-
   def player(question)
     case question
     when 1

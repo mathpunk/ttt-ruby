@@ -1,5 +1,7 @@
 #+TITLE: Tic-Tac-Toe in Ruby
 
+https://travis-ci.org/mathpunk/ttt-ruby.svg?branch=master
+
 - command-line interface
 - human vs. human, human vs. computer, computer vs. computer
 - custom marks, if desired

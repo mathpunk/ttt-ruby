@@ -1,5 +1,4 @@
 require "observer"
-require_relative "display"
 
 class Board
   include Observable
@@ -7,7 +6,6 @@ class Board
 
   def initialize
     @moves = Array.new(9, :no_one)
-    Display.display_observing(board: self)
   end
 
   def accept_move(player, move)

@@ -1,10 +1,12 @@
 require_relative "board"
+require_relative "display"
 
 class Game
   attr_reader :board
 
   def initialize(player1:, player2:)
     @board = Board.new
+    @display = Display.new
     @players = [player1, player2]
     @players.each { |player| player.observe_game(self) }
     @current_player = 0
@@ -19,6 +21,7 @@ class Game
 
   def play
     until over?
+      puts(@display.to_s(@board))
       run_ply
     end
   end

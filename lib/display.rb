@@ -1,24 +1,15 @@
 class Display
-  def self.display_observing(board:)
-    display = new(board)
-    board.add_observer(display)
-    display.update
-  end
 
   BLANK_CELL = "   "
   HORIZONTAL_DIVIDER = "\n---+---+---\n"
 
-  def initialize(board)
-    @board = board
-  end
-
-  def to_s
+  def to_s(board)
     dividers = ["|", "|", HORIZONTAL_DIVIDER, "|", "|", HORIZONTAL_DIVIDER, "|", "|", "\n\n"]
-    squares.zip(dividers).concat.flatten.join("")
+    squares(board).zip(dividers).concat.flatten.join("")
   end
 
   def update
-    puts to_s
+#    puts to_s
   end
 
   private
@@ -28,7 +19,7 @@ class Display
     " " + mark + " "
   end
 
-  def squares
+  def squares(board)
     board.moves.map do |occupant|
       if occupant == :no_one
         BLANK_CELL

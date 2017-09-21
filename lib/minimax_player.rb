@@ -57,12 +57,13 @@ class MinimaxPlayer < Player
   attr_reader :preference, :game
 
   def initialize(name = "Anonymous", mark = "#", preference)
+    super(name, mark)
     @preference = preference
   end
 
   def join_game(game)
     @game = game
-    @preference = game.player1 == self ? :maximize : :minimize
+    @preference = game.player(1) == self ? :maximize : :minimize
   end
 
   def spot_value(game, spot)

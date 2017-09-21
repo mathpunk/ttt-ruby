@@ -3,23 +3,6 @@ require "interface"
 require "io"
 
 describe MinimaxPlayer do
-  context "available moves" do
-    before(:each) do
-      @minimax_player = MinimaxPlayer.new(:maximizing)
-      @other_player = RandomPlayer.new
-    end
-
-    it "have count nine in a new game" do
-      game = Game.new(player1: @minimax_player, player2: @other_player)
-      expect(@minimax_player.available_spots(game).size).to eq 9
-    end
-
-    it "have count eight after one ply" do
-      game = Game.new(player1: @other_player, player2: @minimax_player)
-      game.run_ply
-      expect(@minimax_player.available_spots(game).size).to eq 8
-    end
-  end
 
   context "game value" do
     before(:each) do
@@ -29,21 +12,21 @@ describe MinimaxPlayer do
       interface = Interface.new(:test_win_player1, @io)
       interface.start_game
       game = interface.game
-      expect(@minimax_player.game_value(game)).to eq 1
+      expect(Minimax.game_value(game)).to eq 1
     end
 
     it "is -1 for a P2 win" do
       interface = Interface.new(:test_win_player2, @io)
       interface.start_game
       game = interface.game
-      expect(@minimax_player.game_value(game)).to eq(-1)
+      expect(Minimax.game_value(game)).to eq(-1)
     end
 
     it "is 0 for a draw" do
       interface = Interface.new(:test_draw, @io)
       interface.start_game
       game = interface.game
-      expect(@minimax_player.game_value(game)).to eq(0)
+      expect(Minimax.game_value(game)).to eq(0)
     end
   end
 

@@ -10,6 +10,13 @@ class Game
     @current_player = 0
   end
 
+  def available_spots
+    (1..9).select do |spot|
+      move = Move.new(spot)
+      valid_move? move
+    end
+  end
+
   def play
     until over?
       run_ply

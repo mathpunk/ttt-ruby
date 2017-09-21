@@ -109,7 +109,7 @@ describe MinimaxPlayer do
 
     end
 
-    context "favorite_spot" do
+    context "best_response" do
 
       context "when both players have two in a row" do
         before(:each) do
@@ -124,14 +124,14 @@ describe MinimaxPlayer do
         context "and it's P1's turn to act" do
           it "the best move is to play to win" do
             4.times { |_| @game.run_ply }
-            expect(@max_player.favorite_spot(@game)).to eq @winning_move.spot
+            expect(@max_player.best_response(@game)).to eq @winning_move.spot
           end
         end
 
         context "and it's P2's turn to act" do
           it "the best move is to play to win" do
             5.times { |_| @game.run_ply }
-            expect(@min_player.favorite_spot(@game)).to eq @winning_move.spot
+            expect(@min_player.best_response(@game)).to eq @winning_move.spot
           end
         end
       end
@@ -148,14 +148,14 @@ describe MinimaxPlayer do
         context "when it's P2's turn to act" do
           it "accepts a tie" do
             7.times { |_| @game.run_ply }
-            expect(@min_player.favorite_spot(@game)).to eq(8).or eq(9)
+            expect(@min_player.best_response(@game)).to eq(8).or eq(9)
           end
         end
 
         context "when it's P1's turn to act" do
           it "accepts a tie" do
             8.times { |_| @game.run_ply }
-            expect(@max_player.favorite_spot(@game)).to eq(8).or eq(9)
+            expect(@max_player.best_response(@game)).to eq(8).or eq(9)
           end
         end
 

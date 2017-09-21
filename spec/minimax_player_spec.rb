@@ -5,9 +5,6 @@ require "io"
 describe MinimaxPlayer do
 
   context "game value" do
-    before(:each) do
-      @minimax_player = MinimaxPlayer.new(:maximizing)
-    end
     it "is 1 for a P1 win" do
       interface = Interface.new(:test_win_player1, @io)
       interface.start_game
@@ -35,8 +32,8 @@ describe MinimaxPlayer do
       before(:each) do
         player1 = DeterministicPlayer.new([1, 5, 8])
         player2 = DeterministicPlayer.new([3, 6])
-        @max_player = MinimaxPlayer.new(:maximizing)
-        @min_player = MinimaxPlayer.new(:minimizing)
+        @max_player = MinimaxPlayer.new(:maximize)
+        @min_player = MinimaxPlayer.new(:minimize)
         @game = Game.new(player1: player1, player2: player2)
       end
 
@@ -46,7 +43,7 @@ describe MinimaxPlayer do
           expect(@max_player.spot_value(@game, 9)).to eq 1
         end
 
-        xit "is -1 for a blunder" do
+        it "is -1 for a blunder" do
           4.times { |_| @game.run_ply }
           expect(@max_player.spot_value(@game, 8)).to eq(-1)
         end
@@ -59,7 +56,7 @@ describe MinimaxPlayer do
         end
 
         it "is 1 for a blunder" do
-          4.times { |_| @game.run_ply }
+          5.times { |_| @game.run_ply }
           expect(@min_player.spot_value(@game, 8)).to eq(1)
         end
       end

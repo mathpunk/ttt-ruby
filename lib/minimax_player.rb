@@ -71,6 +71,7 @@ class MinimaxPlayer < Player
 
   def choose_move
     spot = favorite_spot(game)
+    puts "#{self.name} plays at @#{spot}"
     Move.new(spot)
   end
 end

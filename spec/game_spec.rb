@@ -57,17 +57,7 @@ describe Game do
     end
 
     # SHOULD BE INTERFACE RESPONSIBILITY?
-    context "when an occupied square is chosen by a player" do
-      before(:each) do
-        @player = DeterministicPlayer.new(1)
-        @same_player = DeterministicPlayer.new(2)
-        @game = Game.new(player1: @player, player2: @same_strategy_player)
-        @game.run_ply
-      end
-      xit "tells the player square-stealing is forbidden" do
-        expect{@game.run_ply}.to output(/That square is taken. Choose another./).to_stdout
-      end
-    end
+
   end
 
   context "when a game is played" do

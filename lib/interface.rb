@@ -89,11 +89,8 @@ class Interface
 
   def announce_winner
     winner = game.winner
-    if winner == :no_one
-      io.say "It's a draw!"
-    else
-      io.say "#{game.winner.name} wins!"
-    end
+    announcement = winner == :no_one ?  "It's a draw!" : "#{game.winner.name} wins!"
+    io.say announcement
   end
 
   def play_again_shall_we

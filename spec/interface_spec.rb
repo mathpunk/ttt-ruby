@@ -123,6 +123,22 @@ describe Interface do
     end
   end
 
+  context "during a game" do
+    xcontext "when an occupied square is chosen by a player" do
+      before(:each) do
+        @player = DeterministicPlayer.new(1)
+        @same_player = DeterministicPlayer.new(2)
+        @game = Game.new(player1: @player, player2: @same_strategy_player)
+        @game.run_ply
+      end
+
+      it "tells the player square-stealing is forbidden" do
+        expect{@game.run_ply}.to output(/That square is taken. Choose another./).to_stdout
+      end
+    end
+
+  end
+
   context "when a game ends" do
 
     context "in a player 1 win" do

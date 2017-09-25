@@ -93,49 +93,24 @@ describe Game do
     end
   end
 
-  context "fixing the invalid move bug" do
-    # Observed behavior:
+  context "when a console player makes an invalid move" do
 
-    # Choose a square (1-9):
-    # 0
-    # 0 is not a valid move.
-    # Choose a square (1-9):
-    # 9
-    # /home/chiral/work/iteration/ttt-ruby/lib/board.rb:21:in `review_move': undefined method `-' for #<Move:0x00557b6f82aa88 @spot=9> (NoMethodError)
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:43:in `valid_move?'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:22:in `play_round'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:14:in `play'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:48:in `start_game'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:41:in `run_game'
-    # from lib/main.rb:5:in `<main>'
+    context "the unhandled error" do
 
-    # Interrogating further. Is it because of the zero, or because of the invalid move?
+      it "can be reproduced in the string move case" do
+        @qa_player = DeterministicPlayer.new("Q.A. Player", "#", ["q"])
+        @player = DeterministicPlayer.new("Player 2", "X", [1, 2, 3, 4, 9])
+        game = Game.new(player1: @qa_player, player2: @player)
+        expect{game.run_ply}.to raise_error IllFormedMoveError
+      end
 
-    # Choose a square (1-9):
-    # q
-    # q is not a valid move.
-    # Choose a square (1-9):
-    # 5
-    # /home/chiral/work/iteration/ttt-ruby/lib/board.rb:21:in `review_move': undefined method `-' for #<Move:0x0056319194b2b8 @spot=5> (NoMethodError)
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:43:in `valid_move?'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:21:in `play_round'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/game.rb:14:in `play'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:48:in `start_game'
-    # from /home/chiral/work/iteration/ttt-ruby/lib/interface.rb:41:in `run_game'
-    # from lib/main.rb:5:in `<main>'
-
-    it "can be reproduced in a test with a string" do
-      @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
-      @qa_player = DeterministicPlayer.new("Q.A. Player", "#", ["q", 5, 6, 7, 8])
-      game = Game.new(player1: @player, player2: @qa_player)
-      expect{game.play}.to raise_error NoMethodError
+      it "can be reproduced in the out-of-range int move case" do
+        @qa_player = DeterministicPlayer.new("Q.A. Player", "#", [0])
+        @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
+        game = Game.new(player1: @qa_player, player2: @player)
+        expect{game.run_ply}.to raise_error IllFormedMoveError
+      end
     end
 
-    xit "can be reproduced in a test with an out-of-range int" do
-      @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
-      @qa_player = DeterministicPlayer.new("Q.A. Player", "#", [0, 5, 6, 7, 8])
-      game = Game.new(player1: @player, player2: @qa_player)
-      expect{game.play}.to raise_error NoMethodError # This fails, uh, to fail
-    end
   end
 end

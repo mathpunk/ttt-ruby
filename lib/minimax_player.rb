@@ -75,6 +75,7 @@ class MinimaxPlayer < Player
   end
 
   def choose_move
+    puts "Thinking......."
     spot = best_response(game)
     puts "#{self.name} plays at #{spot}"
     Move.new(spot)

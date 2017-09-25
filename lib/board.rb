@@ -1,5 +1,4 @@
 require "observer"
-require_relative "display"
 
 class Board
   include Observable

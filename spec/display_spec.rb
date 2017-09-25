@@ -14,11 +14,11 @@ describe Display do
 
   context "when beginning a game" do
     it "prints to the console" do
-      expect{Game.new(player1: @player1, player2: @player2)}.to output(/.*/).to_stdout
+      expect{@game.run_ply}.to output(/.*/).to_stdout
     end
     it "shows an empty board" do
       empty_board = /"   |   |   \n   |   |   \n   |   |   "/
-      expect{Game.new(player1: @player1, player2: @player2)}.to output(empty_board).to_stdout
+      expect{@game.run_ply}.to output(empty_board).to_stdout
     end
   end
 

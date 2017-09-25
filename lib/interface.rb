@@ -64,14 +64,14 @@ class Interface
   end
 
   def run_ply
-    current_player = player(:current)
+    current_player = game.player(:current)
     chosen_move = current_player.choose_move
-    until valid_move?(chosen_move)
+    until game.valid_move?(chosen_move)
       puts "That square is taken. Choose another."
       chosen_move = current_player.choose_move
     end
-    board.accept_move(current_player, chosen_move)
-    @current_player = (@current_player + 1) % 2
+    game.board.accept_move(current_player, chosen_move)
+    game.advance_turn
   end
 
   def run_game

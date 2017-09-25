@@ -21,7 +21,7 @@ class Game
 
   def play
     until over?
-      puts(@display.to_s(@board))
+      # puts(@display.to_s(@board))
       run_ply
     end
   end
@@ -31,6 +31,7 @@ class Game
   end
 
   def run_ply
+    puts(@display.to_s(@board))
     current_player = player(:current)
     chosen_move = current_player.choose_move
     until valid_move?(chosen_move)

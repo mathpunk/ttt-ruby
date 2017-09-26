@@ -26,25 +26,29 @@ class ConsolePlayer < Player
   def choose_move
     puts "Choose a square, #{self.name} (1-9): "
     response = gets.chomp
-    spot = conform_move(response)
-    Move.new(spot)
+    conform_move(response)
   end
 
   def conform_move(response)
+    choice = coerced_integer(response)
     if response.size == 0
       puts "You must make a move."
       choose_move
-    end
-    choice = response.to_i
-    if choice == 0
-      puts "#{response} is not a valid move."
-      choose_move
-    end
-    unless (1..9).include? choice
-      puts "#{choice} is not a valid move."
-      choose_move
+    elsif choice && choice > 0 && choice < 10
+      Move.new(choice)
     else
-      choice
+      puts "Moves must be numbers, between 1 and 9."
+      choose_move
+    end
+  end
+
+  private
+  def coerced_integer(string)
+    integer = string.to_i
+    if integer.to_s == string
+      return integer
+    else
+      nil
     end
   end
 end

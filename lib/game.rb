@@ -12,10 +12,6 @@ class Game
     @current_player = 0
   end
 
-  def set_board(board)
-    @board = board
-  end
-
   def available_spots
     (1..9).select do |spot|
       move = Move.new(spot)
@@ -25,7 +21,6 @@ class Game
 
   def play
     until over?
-      # puts(@display.to_s(@board))
       run_ply
     end
   end
@@ -34,8 +29,12 @@ class Game
     @current_player = (@current_player + 1) % 2
   end
 
-  def run_ply
+  def present_board
     puts(@display.to_s(@board))
+  end
+
+  def run_ply
+    present_board
     current_player = player(:current)
     chosen_move = current_player.choose_move
     until valid_move?(chosen_move)

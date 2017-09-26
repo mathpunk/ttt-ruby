@@ -92,25 +92,4 @@ describe Game do
       expect(@game.over?).to be true
     end
   end
-
-  context "when a console player makes an invalid move" do
-
-    context "the unhandled error" do
-
-      it "can be reproduced in the string move case" do
-        @qa_player = DeterministicPlayer.new("Q.A. Player", "#", ["q"])
-        @player = DeterministicPlayer.new("Player 2", "X", [1, 2, 3, 4, 9])
-        game = Game.new(player1: @qa_player, player2: @player)
-        expect{game.run_ply}.to raise_error IllFormedMoveError
-      end
-
-      it "can be reproduced in the out-of-range int move case" do
-        @qa_player = DeterministicPlayer.new("Q.A. Player", "#", [0])
-        @player = DeterministicPlayer.new("Player 1", "X", [1, 2, 3, 4, 9])
-        game = Game.new(player1: @qa_player, player2: @player)
-        expect{game.run_ply}.to raise_error IllFormedMoveError
-      end
-    end
-
-  end
 end
